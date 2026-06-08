@@ -18,14 +18,19 @@
         <li><a href="#wie">Funktionsweise</a></li>
         <li><a href="#reflexion">Projektreflexion</a></li>
     </ul>
-    <span class="nav-badge">Informatik-Projekt · KI-Textanalyse</span>
+    <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
+        <button id="themeToggle" class="theme-btn" style="background: none; border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+            🌙 <span>Dark Mode</span>
+        </button>
+        <span class="nav-badge">Informatik-Projekt · KI-Textanalyse</span>
+    </div>
 </nav>
 
 <section class="hero">
     <div class="hero-glow"></div>
     <p class="hero-eyebrow"><span class="eyebrow-dot"></span> Powered by Netlify Functions & OpenRouter</p>
     <h1>Texte intelligent <em>verstehen</em> und bearbeiten</h1>
-    <p class="hero-sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt Sprachen und erklärt komplizierte Texte einfach.</p>
+    <p class="hero-sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt Sprachen, schreibt Texte professionell um und analysiert Dokumente.</p>
     <a href="#tool" class="hero-cta">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         Jetzt testen
@@ -36,7 +41,7 @@
     <div class="container">
         <div class="tool-header">
             <h2>Die Analyse- & Übersetzungsplattform</h2>
-            <p>Füge einen Text ein und wähle das gewünschte Modul aus</p>
+            <p>Füge einen Text ein, lade eine Datei hoch oder wähle dein gewünschtes KI-Modul</p>
         </div>
         
         <div class="tool-card">
@@ -57,8 +62,13 @@
             </div>
 
             <div class="tool-body">
+                <div class="upload-container" style="margin-bottom: 1rem; background: var(--bg2); padding: 10px; border-radius: var(--r); border: 1px dashed var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <span style="font-size: 13px; color: var(--text2);">📂 Eigene Textdatei (.txt) analysieren:</span>
+                    <input type="file" id="fileInput" accept=".txt" style="font-size: 12px; color: var(--text);">
+                </div>
+
                 <div class="input-wrap">
-                    <textarea class="main" id="inputText" placeholder="Füge hier deinen Text oder Artikel ein..."></textarea>
+                    <textarea class="main" id="inputText" placeholder="Füge hier deinen Text ein oder lade oben eine .txt-Datei hoch..."></textarea>
                     <span class="char-badge" id="charCount">0 Zeichen</span>
                 </div>
 
@@ -80,10 +90,12 @@
                     <button class="ex-btn" data-ex="email">✉️ Fehlerhafte E-Mail</button>
                 </div>
 
-                <div class="label-sm">Analyse-Module:</div>
+                <div class="label-sm">Analyse- & KI-Module:</div>
                 <div class="modes-row" id="modes">
                     <button class="mode-btn active" data-mode="summary">📄 Zusammenfassung</button>
                     <button class="mode-btn" data-mode="explain">💡 Einfach Erklären</button>
+                    <button class="mode-btn" data-mode="rephrase_pro">💼 Profi-Stil umschreiben</button>
+                    <button class="mode-btn" data-mode="rephrase_points">📌 In Stichpunkte wandeln</button>
                     <button class="mode-btn" data-mode="grammar">✏️ Grammatik-Check</button>
                     <button class="mode-btn" data-mode="translate">🌐 Übersetzer</button>
                     <button class="mode-btn" data-mode="stats">📊 Text-Metriken</button>
@@ -108,6 +120,10 @@
                             <span>Kopieren</span>
                         </button>
                     </div>
+                    <div id="loadingIndicator" style="display: none; flex-direction: column; align-items: center; padding: 30px 10px; gap: 15px;">
+                        <div class="spinner"></div>
+                        <div style="font-size: 14px; color: var(--text2); font-weight: 500;">KI analysiert Daten via Netlify Functions...</div>
+                    </div>
                     <div id="resultBody"></div>
                 </div>
             </div>
@@ -126,7 +142,7 @@
                 <span class="step-num">1</span>
                 <div class="step-icon">📋</div>
                 <h3>Frontend Input</h3>
-                <p>Der Benutzer fügt den Text ein. JavaScript liest den Wert im DOM aus und verpackt ihn in ein JSON-Objekt.</p>
+                <p>Der Benutzer fügt den Text ein oder lädt eine Datei. JavaScript liest den Wert im DOM aus und verpackt ihn.</p>
             </div>
             <div class="step">
                 <span class="step-num">2</span>
