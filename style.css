@@ -1,16 +1,16 @@
-/* --- GLOBALE VARIABLEN FÜR DEN URSPRÜNGLICHEN LOOK --- */
+/* --- DAS ORIGINALE, CLEAN DESIGN --- */
 :root {
-    --bg: #ffffff;          /* Schneeweißer Bildschirm */
-    --bg2: #fcfdfe;         /* Gewohnte, sanfte Card-Fläche */
-    --bg3: #f3f5f8;         /* Cleaner Hintergrund für Module/Buttons */
-    --text: #111111;        /* Sehr scharfes, elegantes Dunkel */
+    --bg: #ffffff;          /* Reiner, weißer Bildschirm */
+    --bg2: #ffffff;         /* Original flache Flächen */
+    --bg3: #f3f4f6;         /* Klassisches, dezentes Hellgrau */
+    --text: #111111;        /* Kontrastreiches Dunkel */
     --text2: #4b5563;
-    --text3: #8e9cae;
-    --border: #e2e8f0;      /* Klassisch feine Trennlinien */
-    --brand: #ff4a5a;       /* Der typische Contexto-Rot-Akzent */
+    --text3: #9ca3af;
+    --border: #e5e7eb;      /* Super feine, originale Linien */
+    --brand: #ff4a5a;       /* Contexto-Highlight-Farbe */
     --green: #10b981;
     --red: #ef4444;
-    --r: 12px;
+    --r: 8px;
 }
 
 body.dark-theme {
@@ -23,95 +23,53 @@ body.dark-theme {
     --border: #2e2e35;
 }
 
-/* Spezifische Highlight-Farbe für das Wort "verstehen" */
+/* Die originale Farbe für das eine Wort "verstehen" */
 .highlight-word {
     color: var(--brand);
     font-style: normal;
     font-weight: 600;
 }
 
-/* --- INTEGRATION DES NEUEN SELECTION-PFEILS --- */
-.custom-select-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
+/* Unauffälliges, flaches Sprachauswahl-Feld */
 .lang-select {
-    appearance: none;
-    -webkit-appearance: none;
     background: var(--bg3);
     color: var(--text);
     border: 1px solid var(--border);
-    padding: 8px 32px 8px 14px;
-    border-radius: 20px;
+    padding: 6px 10px;
+    border-radius: 6px;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
     outline: none;
 }
 
-.lang-select:hover {
-    border-color: var(--text3);
-}
-
-.custom-select-wrapper::after {
-    content: '▼';
-    font-size: 8px;
-    color: var(--text2);
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
-/* --- HARMONISCHE DATEI-UPLOAD-ZONE IM DESIGN DER PLATTFORM --- */
+/* --- DAS ORIGINALE DATEI-UPLOAD FELD (SCHLANK & RECHTECKIG) --- */
 .upload-zone {
     background: var(--bg3);
     border: 1px dashed var(--border);
     border-radius: var(--r);
-    padding: 14px 20px;
-    margin-bottom: 1.5rem;
+    padding: 12px;
+    margin-bottom: 1rem;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    gap: 8px;
 }
 
 .upload-zone input[type="file"] {
     display: none;
 }
 
-.upload-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-}
-
 .upload-icon {
-    font-size: 18px;
-}
-
-.upload-text-wrap {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    font-size: 16px;
 }
 
 .upload-text-main {
     font-size: 13px;
+    color: var(--text2);
     font-weight: 500;
-    color: var(--text);
-}
-
-.upload-text-sub {
-    font-size: 11px;
-    color: var(--text3);
 }
 
 .upload-zone:hover {
@@ -119,13 +77,13 @@ body.dark-theme {
     background: var(--bg2);
 }
 
-/* --- ANGENEHME, FLÜSSIGE ANIMATIONEN --- */
+/* --- REINE SOFT-ANIMATIONEN --- */
 .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
 .animate-slide-up {
-    animation: slideUp 0.5s ease-out forwards;
+    animation: slideUp 0.4s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -134,18 +92,18 @@ body.dark-theme {
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Lade-Spinner */
+/* Spinner */
 .spinner {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border: 3px solid var(--border);
     border-top-color: var(--brand);
     border-radius: 50%;
-    animation: spin 0.7s cubic-bezier(0.4, 0.1, 0.4, 0.9) infinite;
+    animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
