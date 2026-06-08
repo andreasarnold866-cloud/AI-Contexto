@@ -9,7 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
     
     <style>
+        /* --- DESIGN-SYSTEM & VARIABLEN --- */
         :root {
+            /* Voreinstellung: Reiner, edler Dark Mode */
             --bg: #0b0b0f;
             --bg2: #121218;
             --bg3: #1c1c24;
@@ -17,102 +19,121 @@
             --text2: #9ca3af;
             --text3: #6b7280;
             --border: #22222e;
-            --brand: #6366f1;       /* Das originale Violett */
+            --brand: #6366f1;       /* Originales Violett */
             --brand-hover: #4f46e5;
+            --brand-light: rgba(99, 102, 241, 0.15);
             --green: #10b981;
             --red: #ef4444;
             --r: 12px;
+            --shadow: rgba(0, 0, 0, 0.3);
         }
 
-        body.dark-theme {
-            --bg: #0b0b0f;
-            --bg2: #121218;
-            --bg3: #1c1c24;
-            --text: #f3f4f6;
-            --text2: #9ca3af;
-            --text3: #6b7280;
-            --border: #22222e;
+        /* --- DER REPARIERTE WEISSMODUS (LIGHT MODE) --- */
+        body.light-theme {
+            --bg: #f9fafb;          /* Hellgrauer, sauberer Hintergrund */
+            --bg2: #ffffff;         /* Reinweiße Boxen */
+            --bg3: #f3f4f6;         /* Etwas dunkleres Hellgrau für Inputs */
+            --text: #111827;        /* Dunkler, lesbarer Text */
+            --text2: #4b5563;       /* Grauer Sekundärtext */
+            --text3: #9ca3af;
+            --border: #e5e7eb;      /* Feine, helle Trennlinien */
+            --brand: #4f46e5;       /* Kräftigeres Lila für besseren Kontrast im Hellen */
+            --brand-hover: #3730a3;
+            --brand-light: rgba(79, 70, 229, 0.1);
+            --shadow: rgba(0, 0, 0, 0.05);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'DM Sans', sans-serif; }
+        /* Globale Stile */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'DM Sans', sans-serif; transition: background-color 0.3s, border-color 0.3s, color 0.3s; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.5; }
 
-        nav { display: flex; align-items: center; justify-content: center; height: 70px; border-bottom: 1px solid var(--border); background: rgba(11,11,15,0.8); backdrop-filter: blur(8px); position: sticky; top:0; z-index:100; }
+        /* Navigation */
+        nav { display: flex; align-items: center; justify-content: center; height: 70px; border-bottom: 1px solid var(--border); background: var(--bg2); position: sticky; top:0; z-index:100; box-shadow: 0 2px 10px var(--shadow); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .nav-logo { font-family: 'DM Serif Display', serif; font-size: 24px; color: #fff; text-decoration: none; font-weight: bold; }
+        .nav-logo { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text); text-decoration: none; font-weight: bold; }
         .nav-logo span { color: var(--brand); }
         .nav-links { display: flex; list-style: none; gap: 24px; }
-        .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; transition: color 0.2s; }
-        .nav-links a:hover { color: #fff; }
+        .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-links a:hover { color: var(--brand); }
 
-        .theme-btn, .lang-select { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; }
-        .lang-select { color-scheme: dark; }
+        .theme-btn, .lang-select { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
+        .theme-btn:hover, .lang-select:hover { border-color: var(--brand); }
 
+        /* Hero */
         .hero { position: relative; padding: 100px 20px 60px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-        .hero-glow { position: absolute; width: 300px; height: 300px; background: rgba(99,102,241,0.15); filter: blur(80px); top: 20px; left: 50%; transform: translateX(-50%); z-index: -1; }
-        .hero-eyebrow { font-size: 13px; color: var(--text3); margin-bottom: 16px; display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); }
+        .hero-glow { position: absolute; width: 300px; height: 300px; background: rgba(99,102,241,0.1); filter: blur(80px); top: 20px; left: 50%; transform: translateX(-50%); z-index: -1; }
+        body.light-theme .hero-glow { background: rgba(79,70,229,0.05); }
+        .hero-eyebrow { font-size: 13px; color: var(--text2); margin-bottom: 16px; display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 2px 5px var(--shadow); }
         .eyebrow-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
-        .hero h1 { font-family: 'DM Serif Display', serif; font-size: 48px; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+        .hero h1 { font-family: 'DM Serif Display', serif; font-size: 48px; line-height: 1.1; margin-bottom: 20px; color: var(--text); }
         .highlight-word { color: var(--brand); font-style: normal; }
         .hero-sub { color: var(--text2); font-size: 16px; max-width: 600px; margin: 0 auto 30px auto; }
-        .hero-cta { background: var(--brand); color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-block; transition: background 0.2s; }
+        .hero-cta { background: var(--brand); color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-block; box-shadow: 0 4px 12px var(--brand-light); }
         .hero-cta:hover { background: var(--brand-hover); }
 
+        /* Tool Card */
         .tool-section { padding: 40px 20px; }
         .container { max-width: 1000px; margin: 0 auto; }
         .tool-header { text-align: center; margin-bottom: 30px; }
-        .tool-header h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 8px; color: #fff; }
+        .tool-header h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 8px; color: var(--text); }
         .tool-header p { color: var(--text2); font-size: 14px; }
 
-        .tool-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .tool-topbar { background: #161622; padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+        .tool-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 20px 40px var(--shadow); }
+        .tool-topbar { background: var(--bg3); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
         .tb-dots { display: flex; gap: 6px; margin-right: 12px; }
         .tb-dot { width: 10px; height: 10px; border-radius: 50%; }
         .tb-dot.r { background: #ff5f56; } .tb-dot.y { background: #ffbd2e; } .tb-dot.g { background: #27c93f; }
-        .tb-title { font-size: 12px; color: var(--text3); font-family: monospace; }
+        .tb-title { font-size: 12px; color: var(--text2); font-family: monospace; }
 
         .tool-body { padding: 24px; }
 
+        /* Inputs */
         .input-wrap { position: relative; margin-bottom: 20px; }
-        textarea.main { width: 100%; height: 180px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; color: var(--text); font-size: 15px; resize: none; outline: none; transition: border-color 0.2s; }
+        textarea.main { width: 100%; height: 180px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; color: var(--text); font-size: 15px; resize: none; outline: none; }
         textarea.main:focus { border-color: var(--brand); }
-        .char-badge { position: absolute; bottom: 12px; right: 12px; font-size: 11px; color: var(--text3); background: var(--bg2); padding: 2px 8px; border-radius: 4px; }
+        .char-badge { position: absolute; bottom: 12px; right: 12px; font-size: 11px; color: var(--text2); background: var(--bg2); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
 
-        .upload-zone { background: var(--bg3); border: 1px dashed var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; transition: border 0.2s; }
+        /* Upload Zone */
+        .upload-zone { background: var(--bg3); border: 1px dashed var(--border); border-radius: 8px; padding: 14px; margin-bottom: 16px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .upload-zone input[type="file"] { display: none; }
-        .upload-text-main { font-size: 13px; color: var(--text2); }
-        .upload-zone:hover { border-color: var(--brand); }
+        .upload-text-main { font-size: 13px; color: var(--text2); font-weight: 500; }
+        .upload-zone:hover { border-color: var(--brand); background: var(--bg2); }
 
-        .label-sm { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 10px; font-weight: bold; }
+        /* Module Buttons */
+        .label-sm { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 10px; font-weight: bold; }
         .modes-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
-        .mode-btn { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); padding: 10px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
-        .mode-btn:hover { color: #fff; border-color: var(--text3); }
-        .mode-btn.active { background: rgba(99,102,241,0.15); color: #c7d2fe; border-color: var(--brand); }
+        .mode-btn { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); padding: 10px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 500; }
+        .mode-btn:hover { color: var(--text); border-color: var(--text2); }
+        .mode-btn.active { background: var(--brand-light); color: var(--brand); border-color: var(--brand); }
 
+        /* Run Row Buttons */
         .run-row { display: flex; gap: 12px; margin-bottom: 16px; }
-        .run-btn { background: var(--brand); color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; flex: 1; transition: background 0.2s; }
+        .run-btn { background: var(--brand); color: #fff; border: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; flex: 1; box-shadow: 0 4px 10px var(--brand-light); }
         .run-btn:hover { background: var(--brand-hover); }
-        .clear-btn { background: transparent; color: var(--text2); border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.2s; }
-        .clear-btn:hover { color: #fff; background: var(--bg3); }
+        .clear-btn { background: transparent; color: var(--text2); border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500; }
+        .clear-btn:hover { color: var(--text); background: var(--bg3); }
 
-        .ki-warning-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #d97706; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); padding: 10px; border-radius: 6px; margin-bottom: 24px; }
+        .ki-warning-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b45309; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); padding: 10px; border-radius: 6px; margin-bottom: 24px; }
+        body.dark-theme .ki-warning-badge { color: #f59e0b; }
 
-        .result-wrap { background: #0f0f15; border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: none; }
+        /* Result Box */
+        .result-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: none; box-shadow: inset 0 2px 4px var(--shadow); }
         .result-wrap.show { display: block; }
         .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
-        .result-header h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: #fff; }
-        .copy-btn { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .copy-btn:hover { color: #fff; }
+        .result-header h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
+        .copy-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .copy-btn:hover { color: var(--text); border-color: var(--brand); }
         .result-text { font-size: 15px; color: var(--text); line-height: 1.6; }
 
-        .how-section { padding: 60px 20px; background: #09090d; border-top: 1px solid var(--border); }
+        /* Pipeline / How Section */
+        .how-section { padding: 60px 20px; background: var(--bg2); border-top: 1px solid var(--border); }
         .section-label { font-size: 12px; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: bold; }
-        .how-section h2 { text-align: center; font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 40px; color: #fff; }
+        .how-section h2 { text-align: center; font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 40px; color: var(--text); }
         .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .step { background: var(--bg2); border: 1px solid var(--border); padding: 24px; border-radius: var(--r); position: relative; }
-        .step-num { position: absolute; top: 16px; right: 16px; font-size: 12px; color: var(--text3); background: var(--bg3); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .step { background: var(--bg3); border: 1px solid var(--border); padding: 24px; border-radius: var(--r); position: relative; }
+        .step-num { position: absolute; top: 16px; right: 16px; font-size: 12px; color: var(--text2); background: var(--bg2); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border); }
         .step-icon { font-size: 24px; margin-bottom: 12px; }
-        .step h3 { font-size: 16px; margin-bottom: 8px; color: #fff; }
+        .step h3 { font-size: 16px; margin-bottom: 8px; color: var(--text); }
         .step p { font-size: 13px; color: var(--text2); }
 
         footer { text-align: center; padding: 30px; font-size: 12px; color: var(--text3); border-top: 1px solid var(--border); background: var(--bg); }
@@ -120,9 +141,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="dark-theme">
-
-<nav>
+<body> <nav>
     <div class="nav-container">
         <a href="#" class="nav-logo">Context<span>o</span></a>
         <ul class="nav-links">
@@ -178,7 +197,7 @@
 
                 <div id="translatorOptions" style="display: none; margin-bottom: 1.5rem; background: var(--bg3); padding: 12px; border-radius: var(--r); border: 1px solid var(--border);">
                     <span class="label-sm" style="margin-bottom: 6px; display: block;" data-i18n="trans_label">Ziel-Sprache für Übersetzung:</span>
-                    <select id="targetLangSelect" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color-scheme: dark;">
+                    <select id="targetLangSelect" style="background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px;">
                         <option value="Englisch">English</option>
                         <option value="Deutsch">Deutsch</option>
                         <option value="Französisch">Français</option>
@@ -267,5 +286,15 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+    // Kleines JavaScript-Update für den Button-Klick, damit die Klassen richtig matchen:
+    const toggleBtn = document.getElementById('themeToggle');
+    toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        toggleBtn.querySelector('span').textContent = isLight ? 'Dark Mode' : 'Light Mode';
+        toggleBtn.firstChild.textContent = isLight ? '🌙 ' : '☀️ ';
+    });
+</script>
 </body>
 </html>
