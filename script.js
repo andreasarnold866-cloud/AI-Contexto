@@ -1,8 +1,7 @@
-// Sprachwörterbuch für die gesamte Applikation
 const TRANSLATIONS = {
     'de-DE': {
         nav_tool: 'Analyse-Tool', nav_how: 'Funktionsweise', btn_dark: 'Dark Mode', btn_light: 'Light Mode',
-        hero_title: 'Texte intelligent erhaben verstehen und bearbeiten',
+        hero_title: 'Texte intelligent verstehen und bearbeiten',
         hero_sub: 'Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt Sprachen, schreibt Texte professionell um und analysiert Dokumente.',
         hero_cta: 'Jetzt testen', tool_title: 'Die Analyse- & Übersetzungsplattform',
         tool_sub: 'Füge einen Text ein, lade eine Datei hoch oder wähle dein gewünschtes KI-Modul',
@@ -62,7 +61,7 @@ const TRANSLATIONS = {
         pipe_label: 'Architecture Sécurisée', pipe_title: 'Pipeline de traitement des données',
         pipe_sub: 'Le chemin d\'une chaîne brute vers une fonction Serverless chiffrée',
         step1_title: 'Entrée Frontend', step1_desc: 'L\'utilisateur insère le texte ou charge un fichier. JavaScript extrait la valeur du DOM.',
-        step2_title: 'Netlify Function', step2_desc: 'Les données vont au backend. La clé API est masquée en toute sécurité sur le serveur.',
+        step2_title: 'Netlify Function', step2_desc: 'Les données vont au backend. La clé API ist masquée en toute sécurité sur le serveur.',
         step3_title: 'Inférence', step3_desc: 'Le modèle linguistique traite le texte via OpenRouter et génère la réponse.',
         step4_title: 'DOM Injection', step4_desc: 'Le résultat retourne au frontend et s\'affiche de manière fluide.',
         char_unit: ' caractères', word_unit: 'Mots', sentence_unit: 'Phrases', time_unit: 'env. {sec} sec.',
@@ -116,7 +115,6 @@ const loadingIndicator = document.getElementById('loadingIndicator');
 const themeToggle = document.getElementById('themeToggle');
 const langSelect = document.getElementById('langSelect');
 
-// Globale Sprachumschaltung steuern
 langSelect.addEventListener('change', (e) => {
     currentLang = e.target.value;
     translatePage(currentLang);
@@ -126,16 +124,24 @@ function translatePage(lang) {
     const dict = TRANSLATIONS[lang];
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
+        if (dict[key]) {
+            // Spezieller Erhalt des <em> Tags im Hero-Titel beim Übersetzen
+            if (key === 'hero_title') {
+                if (lang === 'de-DE') el.innerHTML = 'Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten';
+                else if (lang === 'en-US') el.innerHTML = 'Understand text <em class="highlight-word">intelligently</em> and edit it';
+                else if (lang === 'fr-FR') el.innerHTML = 'Comprendre le texte de manière <em class="highlight-word">intelligente</em>';
+                else if (lang === 'es-ES') el.innerHTML = 'Comprender textos de forma <em class="highlight-word">inteligente</em>';
+            } else {
+                el.textContent = dict[key];
+            }
+        }
     });
     
-    // Titelleiste des Ergebnisses dynamisch übersetzen
     if(resultWrap.classList.contains('show')) {
         resultTitle.textContent = dict[TITLES[activeMode]];
     }
 }
 
-// Dark Mode Toggler
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
@@ -144,7 +150,6 @@ themeToggle.addEventListener('click', () => {
     translatePage(currentLang);
 });
 
-// Datei-Upload Styling-Interaktion und Auslesen
 uploadZone.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -286,7 +291,6 @@ async function analyze() {
         let modeToSend = "summary"; 
         let textToSend = text;
         
-        // Sprache der KI-Generierung basierend auf globaler App-Sprache steuern
         let targetInstructionLanguage = "Deutsch";
         if(currentLang === 'en-US') targetInstructionLanguage = "English";
         if(currentLang === 'fr-FR') targetInstructionLanguage = "French";
