@@ -2,35 +2,32 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>StudyMind AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TextMind AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>📚 StudyMind AI</h1>
+<div class="container">
 
-<textarea id="input" placeholder="Thema eingeben"></textarea>
+<h1>🧠 TextMind AI</h1>
+<p>KI Lern- & Analyse Tool</p>
 
-<button onclick="generate()">Start KI</button>
+<textarea id="input" placeholder="Text eingeben..."></textarea>
+
+<div class="buttons">
+<button onclick="analyze('summary')">📄 Zusammenfassen</button>
+<button onclick="analyze('explain')">💡 Erklären</button>
+<button onclick="analyze('quiz')">🎯 Quiz</button>
+<button onclick="analyze('flashcards')">🧪 Karten</button>
+</div>
 
 <div id="output"></div>
 
-<script>
-async function generate() {
-  const input = document.getElementById("input").value;
-  const output = document.getElementById("output");
+</div>
 
-  output.innerText = "Lädt...";
-
-  const res = await fetch("/.netlify/functions/chat", {
-    method: "POST",
-    body: JSON.stringify({ input })
-  });
-
-  const data = await res.json();
-  output.innerText = data.result;
-}
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
