@@ -9,29 +9,26 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-<nav>
-    <a href="#" class="nav-logo">Context<span>o</span></a>
-    <ul class="nav-links">
-        <li><a href="#tool" data-i18n="nav_tool">Analyse-Tool</a></li>
-        <li><a href="#wie" data-i18n="nav_how">Funktionsweise</a></li>
-    </ul>
-    <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
-        <select class="lang-select" id="langSelect">
-            <option value="de-DE">Deutsch (DE)</option>
-            <option value="en-US">English (US)</option>
-            <option value="fr-FR">Français (FR)</option>
-            <option value="es-ES">Español (ES)</option>
-        </select>
-        
-        <button id="themeToggle" class="theme-btn">
-            🌙 <span data-i18n="btn_dark">Dark Mode</span>
-        </button>
+<body class="dark-theme"> <nav>
+    <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <a href="#" class="nav-logo">Context<span>o</span></a>
+        <ul class="nav-links">
+            <li><a href="#tool" data-i18n="nav_tool">Analyse-Tool</a></li>
+            <li><a href="#wie" data-i18n="nav_how">Funktionsweise</a></li>
+        </ul>
+        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
+            <select class="lang-select" id="langSelect">
+                <option value="de-DE">Deutsch (DE)</option>
+                <option value="en-US">English (US)</option>
+                <option value="fr-FR">Français (FR)</option>
+                <option value="es-ES">Español (ES)</option>
+            </select>
+            <button id="themeToggle" class="theme-btn">🌙 <span data-i18n="btn_dark">Dark Mode</span></button>
+        </div>
     </div>
 </nav>
 
-<section class="hero animate-fade-in">
+<section class="hero">
     <div class="hero-glow"></div>
     <p class="hero-eyebrow"><span class="eyebrow-dot"></span> Powered by Netlify Functions & OpenRouter</p>
     <h1 data-i18n="hero_title">Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten</h1>
@@ -41,12 +38,12 @@
 
 <section class="tool-section" id="tool">
     <div class="container">
-        <div class="tool-header animate-fade-in">
+        <div class="tool-header">
             <h2 data-i18n="tool_title">Die Analyse- & Übersetzungsplattform</h2>
             <p data-i18n="tool_sub">Füge einen Text ein, lade eine Datei hoch oder wähle dein gewünschtes KI-Modul</p>
         </div>
         
-        <div class="tool-card animate-slide-up">
+        <div class="tool-card">
             <div class="tool-topbar">
                 <div class="tb-left">
                     <div class="tb-dots"><div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div></div>
@@ -68,7 +65,7 @@
 
                 <div id="translatorOptions" style="display: none; margin-bottom: 1.5rem; background: var(--bg3); padding: 12px; border-radius: var(--r); border: 1px solid var(--border);">
                     <span class="label-sm" style="margin-bottom: 6px; display: block;" data-i18n="trans_label">Ziel-Sprache für Übersetzung:</span>
-                    <select id="targetLangSelect" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px;">
+                    <select id="targetLangSelect" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color-scheme: dark;">
                         <option value="Englisch">English</option>
                         <option value="Deutsch">Deutsch</option>
                         <option value="Französisch">Français</option>
@@ -77,7 +74,7 @@
                     </select>
                 </div>
 
-                <div class="label-sm" data-i18n="modules_label">Analyse- & KI-Module:</div>
+                <div class="label-sm" data-i18n="modules_label">ANALYSE-MODUL:</div>
                 <div class="modes-row" id="modes">
                     <button class="mode-btn active" data-mode="summary" data-i18n="mod_summary">📄 Zusammenfassung</button>
                     <button class="mode-btn" data-mode="explain" data-i18n="mod_explain">💡 Einfach Erklären</button>
@@ -95,7 +92,7 @@
 
                 <div class="ki-warning-badge">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span data-i18n="ki_warning">KI kann Fehler machen. Überprüfe wichtige Resultate sorgfältig.</span>
+                    <span data-i18n="ki_warning">KI kann Fehler machen. Überprüfe wichtige Antworten und Resultate sorgfältig.</span>
                 </div>
 
                 <div class="result-wrap" id="resultWrap">
@@ -122,32 +119,31 @@
     <div class="container">
         <p class="section-label" style="text-align:center" data-i18n="pipe_label">Sichere Architektur</p>
         <h2 data-i18n="pipe_title">Pipeline der Datenverarbeitung</h2>
-        <p class="sub" data-i18n="pipe_sub">Der Weg von der rohen Zeichenkette zur verschlüsselten Serverless Function</p>
         
         <div class="steps">
             <div class="step">
                 <span class="step-num">1</span>
                 <div class="step-icon">📋</div>
                 <h3 data-i18n="step1_title">Frontend Input</h3>
-                <p data-i18n="step1_desc">Der Benutzer fügt den Text ein oder lädt eine Datei. JavaScript liest den Wert im DOM aus.</p>
+                <p data-i18n="step1_desc">Der Benutzer fügt den Text ein oder lädt eine Datei.</p>
             </div>
             <div class="step">
                 <span class="step-num">2</span>
                 <div class="step-icon">🔒</div>
                 <h3 data-i18n="step2_title">Netlify Function</h3>
-                <p data-i18n="step2_desc">Die Daten wandern ans Backend. Der API-Key ist auf dem Server verborgen und für Nutzer unsichtbar.</p>
+                <p data-i18n="step2_desc">Die Daten wandern ans Backend. Der API-Key ist auf dem Server verborgen.</p>
             </div>
             <div class="step">
                 <span class="step-num">3</span>
                 <div class="step-icon">🤖</div>
                 <h3 data-i18n="step3_title">Inferenz</h3>
-                <p data-i18n="step3_desc">Das Sprachmodell verarbeitet den Text über OpenRouter und generiert die Antwort.</p>
+                <p data-i18n="step3_desc">Das Sprachmodell verarbeitet den Text über OpenRouter.</p>
             </div>
             <div class="step">
                 <span class="step-num">4</span>
                 <div class="step-icon">✨</div>
                 <h3 data-i18n="step4_title">DOM Injection</h3>
-                <p data-i18n="step4_desc">Das Ergebnis wandert zurück ans Frontend und wird über JavaScript flüssig eingeblendet.</p>
+                <p data-i18n="step4_desc">Das Ergebnis wandert zurück ans Frontend.</p>
             </div>
         </div>
     </div>
