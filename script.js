@@ -1,20 +1,106 @@
-const EXAMPLES = {
-    news: `Die Schweizer Nationalbank hat ihren Leitzins erneut gesenkt. In einer Mitteilung vom Donnerstag erklärte die SNB, der Zinssatz werde auf 0,25 Prozent reduziert. Begründet wird der Schritt mit der schwachen Inflationsentwicklung und dem starken Franken, der Schweizer Exporteure unter Druck setzt. Ökonomen hatten die Senkung mehrheitlich erwartet, einige hatten jedoch auf eine Pause gehofft.`,
-    essay: `Künstliche Intelligenz verändert unsere Gesellschaft grundlegend – schneller als viele erwartet haben. Besonders im Bildungsbereich stellt sich die Frage, wie Schulen und Universitäten damit umgehen sollen. Einerseits können KI-Tools Lernende unterstützen und individualisiertes Lernen ermöglichen. Andererseits besteht die Gefahr, dass eigenständiges Denken verkümmert. Eine ausgewogene Medienkompetenz ist wichtiger denn je.`,
-    email: `guten morgen frau müller, ich hofe sie hatten ein chills wochenende. ich wolte fragen wegem dem projekt wo wir besprochen haben. ich habe leider noch keine zeit gehabt zum reinschaun, weil es war vol stressig. ich thue es bis mitwuch fertig machen und schicke es dan.`
+// Sprachwörterbuch für die gesamte Applikation
+const TRANSLATIONS = {
+    'de-DE': {
+        nav_tool: 'Analyse-Tool', nav_how: 'Funktionsweise', btn_dark: 'Dark Mode', btn_light: 'Light Mode',
+        hero_title: 'Texte intelligent erhaben verstehen und bearbeiten',
+        hero_sub: 'Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt Sprachen, schreibt Texte professionell um und analysiert Dokumente.',
+        hero_cta: 'Jetzt testen', tool_title: 'Die Analyse- & Übersetzungsplattform',
+        tool_sub: 'Füge einen Text ein, lade eine Datei hoch oder wähle dein gewünschtes KI-Modul',
+        upload_main: 'Klicke hier oder ziehe eine .txt-Datei hinein',
+        upload_sub: 'Unterstützt reine Textdateien bis zu 5 MB', trans_label: 'Ziel-Sprache für Übersetzung:',
+        modules_label: 'Analyse- & KI-Module:', mod_summary: '📄 Zusammenfassung', mod_explain: '💡 Einfach Erklären',
+        mod_pro: '💼 Profi-Stil umschreiben', mod_points: '📌 In Stichpunkte wandeln', mod_grammar: '✏️ Grammatik-Check',
+        mod_translate: '🌐 Übersetzer', mod_stats: '📊 Text-Metriken', btn_run: 'Analyse ausführen',
+        btn_clear: 'Zurücksetzen', ki_warning: 'KI kann Fehler machen. Überprüfe wichtige Resultate sorgfältig.',
+        res_title: 'Ergebnis', btn_copy: 'Kopieren', loading_text: 'KI analysiert Daten...',
+        pipe_label: 'Sichere Architektur', pipe_title: 'Pipeline der Datenverarbeitung',
+        pipe_sub: 'Der Weg von der rohen Zeichenkette zur verschlüsselten Serverless Function',
+        step1_title: 'Frontend Input', step1_desc: 'Der Benutzer fügt den Text ein oder lädt eine Datei. JavaScript liest den Wert im DOM aus.',
+        step2_title: 'Netlify Function', step2_desc: 'Die Daten wandern ans Backend. Der API-Key ist auf dem Server verborgen und für Nutzer unsichtbar.',
+        step3_title: 'Inferenz', step3_desc: 'Das Sprachmodell verarbeitet den Text über OpenRouter und generiert die Antwort.',
+        step4_title: 'DOM Injection', step4_desc: 'Das Ergebnis wandert zurück ans Frontend und wird über JavaScript flüssig eingeblendet.',
+        char_unit: ' Zeichen', word_unit: 'Wörter', sentence_unit: 'Sätze', time_unit: 'ca. {sec} Sek.',
+        grammar_ok: '🎉 Keine Fehler gefunden! Grammatik und Rechtschreibung sind einwandfrei.',
+        grammar_hint: 'Folgende Korrekturhinweise wurden gefunden:', conn_err: 'Fehler bei der Server-Verbindung.'
+    },
+    'en-US': {
+        nav_tool: 'Analysis Tool', nav_how: 'How it works', btn_dark: 'Dark Mode', btn_light: 'Light Mode',
+        hero_title: 'Understand and process text intelligently',
+        hero_sub: 'Contexto extracts key insights, corrects grammar, translates languages, rewrites text professionally, and analyzes documents.',
+        hero_cta: 'Test Now', tool_title: 'The Analysis & Translation Platform',
+        tool_sub: 'Paste text, upload a file, or select your preferred AI module',
+        upload_main: 'Click here or drag a .txt file inside',
+        upload_sub: 'Supports plain text files up to 5 MB', trans_label: 'Target language for translation:',
+        modules_label: 'Analysis & AI Modules:', mod_summary: '📄 Summary', mod_explain: '💡 Simple Explanation',
+        mod_pro: '💼 Professional Style', mod_points: '📌 Convert to Bullet Points', mod_grammar: '✏️ Grammar Check',
+        mod_translate: '🌐 Translator', mod_stats: '📊 Text Metrics', btn_run: 'Execute Analysis',
+        btn_clear: 'Reset', ki_warning: 'AI can make mistakes. Verify important results carefully.',
+        res_title: 'Result', btn_copy: 'Copy', loading_text: 'AI is analyzing data...',
+        pipe_label: 'Secure Architecture', pipe_title: 'Data Processing Pipeline',
+        pipe_sub: 'The path from raw string to encrypted Serverless Function',
+        step1_title: 'Frontend Input', step1_desc: 'The user inserts text or uploads a file. JavaScript extracts the value from the DOM.',
+        step2_title: 'Netlify Function', step2_desc: 'Data is sent to the backend. The API key is securely hidden on the server.',
+        step3_title: 'Inference', step3_desc: 'The language model processes the text via OpenRouter and generates the response.',
+        step4_title: 'DOM Injection', step4_desc: 'The result is sent back to the frontend and smoothly rendered into the document.',
+        char_unit: ' characters', word_unit: 'Words', sentence_unit: 'Sentences', time_unit: 'approx. {sec} sec.',
+        grammar_ok: '🎉 No errors found! Grammar and spelling are impeccable.',
+        grammar_hint: 'The following correction notes were found:', conn_err: 'Error connecting to the server.'
+    },
+    'fr-FR': {
+        nav_tool: 'Outil d\'analyse', nav_how: 'Fonctionnement', btn_dark: 'Mode Sombre', btn_light: 'Mode Clair',
+        hero_title: 'Comprendre et traiter le texte de manière intelligente',
+        hero_sub: 'Contexto filtre les points clés, corrige la grammaire, traduit les langues, réécrit professionnellement et analyse les documents.',
+        hero_cta: 'Tester maintenant', tool_title: 'La plateforme d\'analyse et de traduction',
+        tool_sub: 'Collez un texte, importez un fichier ou choisissez votre module IA',
+        upload_main: 'Cliquez ici ou glissez un fichier .txt',
+        upload_sub: 'Prend en charge les fichiers texte jusqu\'à 5 Mo', trans_label: 'Langue cible pour la traduction :',
+        modules_label: 'Modules d\'analyse & IA :', mod_summary: '📄 Résumé', mod_explain: '💡 Explication Simple',
+        mod_pro: '💼 Style Professionnel', mod_points: '📌 Convertir en puces', mod_grammar: '✏️ Correcteur',
+        mod_translate: '🌐 Traducteur', mod_stats: '📊 Statistiques', btn_run: 'Lancer l\'analyse',
+        btn_clear: 'Réinitialiser', ki_warning: 'L\'IA peut faire des erreurs. Vérifiez attentivement les résultats.',
+        res_title: 'Résultat', btn_copy: 'Copier', loading_text: 'L\'IA analyse les données...',
+        pipe_label: 'Architecture Sécurisée', pipe_title: 'Pipeline de traitement des données',
+        pipe_sub: 'Le chemin d\'une chaîne brute vers une fonction Serverless chiffrée',
+        step1_title: 'Entrée Frontend', step1_desc: 'L\'utilisateur insère le texte ou charge un fichier. JavaScript extrait la valeur du DOM.',
+        step2_title: 'Netlify Function', step2_desc: 'Les données vont au backend. La clé API est masquée en toute sécurité sur le serveur.',
+        step3_title: 'Inférence', step3_desc: 'Le modèle linguistique traite le texte via OpenRouter et génère la réponse.',
+        step4_title: 'DOM Injection', step4_desc: 'Le résultat retourne au frontend et s\'affiche de manière fluide.',
+        char_unit: ' caractères', word_unit: 'Mots', sentence_unit: 'Phrases', time_unit: 'env. {sec} sec.',
+        grammar_ok: '🎉 Aucun défaut trouvé ! La grammaire et l\'orthographe sont impeccables.',
+        grammar_hint: 'Les suggestions de correction suivantes ont été trouvées :', conn_err: 'Erreur de connexion au serveur.'
+    },
+    'es-ES': {
+        nav_tool: 'Herramienta', nav_how: 'Cómo funciona', btn_dark: 'Modo Oscuro', btn_light: 'Modo Claro',
+        hero_title: 'Comprende y edita textos de forma inteligente',
+        hero_sub: 'Contexto filtra puntos clave, corrige gramática, traduce idiomas, reescribe profesionalmente y analiza documentos.',
+        hero_cta: 'Probar ahora', tool_title: 'La Plataforma de Análisis y Traducción',
+        tool_sub: 'Pega un texto, sube un archivo o elige tu módulo de IA',
+        upload_main: 'Haz clic aquí o arrastra un archivo .txt',
+        upload_sub: 'Soporta archivos de texto puro hasta 5 MB', trans_label: 'Idioma de destino para traducción:',
+        modules_label: 'Módulos de Análisis e IA:', mod_summary: '📄 Resumen', mod_explain: '💡 Explicación Simple',
+        mod_pro: '💼 Estilo Profesional', mod_points: '📌 Convertir en viñetas', mod_grammar: '✏️ Corrector Gramatical',
+        mod_translate: '🌐 Traductor', mod_stats: '📊 Métricas de Texto', btn_run: 'Ejecutar Análisis',
+        btn_clear: 'Restablecer', ki_warning: 'La IA puede cometer errores. Revise los resultados cuidadosamente.',
+        res_title: 'Resultado', btn_copy: 'Copiar', loading_text: 'La IA está analizando los datos...',
+        pipe_label: 'Arquitectura Segura', pipe_title: 'Pipeline de Procesamiento de Datos',
+        pipe_sub: 'El camino desde una cadena de texto sin formato hasta una función Serverless cifrada',
+        step1_title: 'Entrada Frontend', step1_desc: 'El usuario inserta texto o carga un archivo. JavaScript extrae el valor del DOM.',
+        step2_title: 'Netlify Function', step2_desc: 'Los datos viajan al backend. La clave API está oculta de forma segura en el servidor.',
+        step3_title: 'Inferencia', step3_desc: 'El modelo lingüístico procesa el texto a través de OpenRouter y genera la respuesta.',
+        step4_title: 'DOM Injection', step4_desc: 'El resultado regresa al frontend y se despliega de manera fluida.',
+        char_unit: ' caracteres', word_unit: 'Palabras', sentence_unit: 'Oraciones', time_unit: 'aprox. {sec} seg.',
+        grammar_ok: '🎉 ¡No se encontraron errores! La gramática y la ortografía son impecables.',
+        grammar_hint: 'Se encontraron las siguientes notas de corrección:', conn_err: 'Error de conexión con el servidor.'
+    }
 };
 
 const TITLES = { 
-    summary: 'Zusammenfassung', 
-    explain: 'Einfache Erklärung', 
-    rephrase_pro: 'Umschreiben: Professioneller Stil',
-    rephrase_points: 'Umschreiben: In prägnante Stichpunkte',
-    grammar: 'Grammatik- & Stilprüfung', 
-    translate: 'KI-Übersetzung',
-    stats: 'Berechnete Text-Metriken' 
+    summary: 'mod_summary', explain: 'mod_explain', rephrase_pro: 'mod_pro',
+    rephrase_points: 'mod_points', grammar: 'mod_grammar', translate: 'mod_translate', stats: 'mod_stats' 
 };
 
 let activeMode = 'summary';
+let currentLang = 'de-DE';
 
 const textarea = document.getElementById('inputText');
 const charCount = document.getElementById('charCount');
@@ -25,41 +111,57 @@ const resultTitle = document.getElementById('resultTitle');
 const resultTag = document.getElementById('resultTag');
 const translatorOptions = document.getElementById('translatorOptions');
 const fileInput = document.getElementById('fileInput');
+const uploadZone = document.getElementById('uploadZone');
 const loadingIndicator = document.getElementById('loadingIndicator');
 const themeToggle = document.getElementById('themeToggle');
+const langSelect = document.getElementById('langSelect');
 
-// FEATURE 1: Dark Mode Logik via Class-Toggle am Body
+// Globale Sprachumschaltung steuern
+langSelect.addEventListener('change', (e) => {
+    currentLang = e.target.value;
+    translatePage(currentLang);
+});
+
+function translatePage(lang) {
+    const dict = TRANSLATIONS[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+    });
+    
+    // Titelleiste des Ergebnisses dynamisch übersetzen
+    if(resultWrap.classList.contains('show')) {
+        resultTitle.textContent = dict[TITLES[activeMode]];
+    }
+}
+
+// Dark Mode Toggler
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
-    themeToggle.querySelector('span').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    themeToggle.querySelector('span').setAttribute('data-i18n', isDark ? 'btn_light' : 'btn_dark');
     themeToggle.firstChild.textContent = isDark ? '☀️ ' : '🌙 ';
+    translatePage(currentLang);
 });
 
-// FEATURE 2: Lokalen Datei-Upload verarbeiten (.txt einlesen)
+// Datei-Upload Styling-Interaktion und Auslesen
+uploadZone.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    
+    uploadZone.querySelector('.upload-text-main').textContent = "📄 " + file.name;
+    
     const reader = new FileReader();
     reader.onload = function(evt) {
         textarea.value = evt.target.result;
-        charCount.textContent = evt.target.result.length + ' Zeichen';
+        charCount.textContent = evt.target.result.length + TRANSLATIONS[currentLang].char_unit;
     };
     reader.readAsText(file);
 });
 
 textarea.addEventListener('input', () => { 
-    charCount.textContent = textarea.value.trim().length + ' Zeichen'; 
-});
-
-document.getElementById('examples').addEventListener('click', e => {
-    const b = e.target.closest('.ex-btn'); 
-    if(!b) return;
-    const key = b.dataset.ex;
-    if(EXAMPLES[key]) { 
-        textarea.value = EXAMPLES[key]; 
-        charCount.textContent = EXAMPLES[key].length + ' Zeichen'; 
-    }
+    charCount.textContent = textarea.value.trim().length + TRANSLATIONS[currentLang].char_unit; 
 });
 
 document.getElementById('modes').addEventListener('click', e => {
@@ -78,8 +180,9 @@ document.getElementById('modes').addEventListener('click', e => {
 
 function clearAll() {
     textarea.value = ''; 
-    charCount.textContent = '0 Zeichen';
+    charCount.textContent = '0' + TRANSLATIONS[currentLang].char_unit;
     fileInput.value = '';
+    uploadZone.querySelector('.upload-text-main').setAttribute('data-i18n', 'upload_main');
     resultWrap.classList.remove('show'); 
     resultBody.innerHTML = ''; 
     resultTag.style.display = 'none';
@@ -88,6 +191,7 @@ function clearAll() {
     document.querySelectorAll('.mode-btn').forEach(x => x.classList.remove('active'));
     document.querySelector('[data-mode="summary"]').classList.add('active');
     activeMode = 'summary';
+    translatePage(currentLang);
 }
 
 function copyResult() {
@@ -95,8 +199,9 @@ function copyResult() {
     if(!textToCopy) return;
     navigator.clipboard.writeText(textToCopy).then(() => {
         const btnText = document.querySelector('#copyBtn span');
-        btnText.textContent = 'Kopiert!';
-        setTimeout(() => { btnText.textContent = 'Kopieren'; }, 2000);
+        const oldText = btnText.textContent;
+        btnText.textContent = currentLang === 'de-DE' ? 'Kopiert!' : 'Copied!';
+        setTimeout(() => { btnText.textContent = oldText; }, 2000);
     });
 }
 
@@ -104,11 +209,12 @@ function getLocalStats(text) {
     const words = text.split(/\s+/).filter(x => x.length > 0).length;
     const sentences = text.split(/[.!?]+/).filter(x => x.trim().length > 0).length;
     const sec = Math.max(1, Math.ceil(words / 3));
+    const dict = TRANSLATIONS[currentLang];
     return `
         <div class="stat-grid">
-            <div class="stat-box"><div class="stat-lbl">Wörter</div><div class="stat-val">${words}</div></div>
-            <div class="stat-box"><div class="stat-lbl">Sätze</div><div class="stat-val">${sentences}</div></div>
-            <div class="stat-box"><div class="stat-lbl">Lesezeit</div><div class="stat-val sm">ca. ${sec} Sek.</div></div>
+            <div class="stat-box"><div class="stat-lbl">${dict.word_unit}</div><div class="stat-val">${words}</div></div>
+            <div class="stat-box"><div class="stat-lbl">${dict.sentence_unit}</div><div class="stat-val">${sentences}</div></div>
+            <div class="stat-box"><div class="stat-lbl">Tempo</div><div class="stat-val sm">${dict.time_unit.replace('{sec}', sec)}</div></div>
         </div>
     `;
 }
@@ -117,16 +223,15 @@ async function analyze() {
     const text = textarea.value.trim();
     if(!text) { alert('Bitte gib zuerst einen Text ein!'); return; }
     
+    const dict = TRANSLATIONS[currentLang];
     runBtn.disabled = true;
     resultTag.style.display = 'none';
-    resultTitle.textContent = TITLES[activeMode];
+    resultTitle.textContent = dict[TITLES[activeMode]];
     resultWrap.classList.add('show');
     
-    // FEATURE 4: Schalte Ladeindikator ein und leere altes Ergebnis
     loadingIndicator.style.display = 'flex';
     resultBody.innerHTML = '';
     
-    // 1. LOKALE METRIKEN
     if(activeMode === 'stats') {
         loadingIndicator.style.display = 'none';
         resultBody.innerHTML = getLocalStats(text);
@@ -134,30 +239,28 @@ async function analyze() {
         return;
     }
 
-    // 2. GRAMMATIKPRÜFUNG
     if(activeMode === 'grammar') {
         try {
-            const lang = document.getElementById('langSelect')?.value || 'de-DE';
             const response = await fetch("https://api.languagetoolplus.com/v2/check", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({ text: text, language: lang })
+                body: new URLSearchParams({ text: text, language: currentLang })
             });
             const data = await response.json();
             const matches = data.matches || [];
             
             loadingIndicator.style.display = 'none';
             resultTag.style.display = 'inline-block';
-            resultTag.textContent = matches.length === 0 ? 'SYNTAX OK' : matches.length + ' HINWEISE';
+            resultTag.textContent = matches.length === 0 ? 'OK' : matches.length + ' !';
             resultTag.className = 'result-tag ' + (matches.length === 0 ? 'tag-ok' : 'tag-warn');
             
             if(matches.length === 0) {
-                resultBody.innerHTML = `<div class="grammar-ok" style="color:var(--green); font-weight:500;">🎉 Keine Fehler gefunden! Grammatik und Rechtschreibung sind einwandfrei.</div>`;
+                resultBody.innerHTML = `<div class="grammar-ok" style="color:var(--green); font-weight:500;">${dict.grammar_ok}</div>`;
             } else {
-                let html = '<div class="result-text" style="margin-bottom:15px;">Folgende Korrekturhinweise wurden gefunden:</div>';
+                let html = `<div class="result-text" style="margin-bottom:15px;">${dict.grammar_hint}</div>`;
                 matches.forEach(m => {
                     let falschesWort = text.substring(m.offset, m.offset + m.length);
-                    let vorschlaege = m.replacements.slice(0, 3).map(r => r.value).join(', ') || 'Kein Vorschlag';
+                    let vorschlaege = m.replacements.slice(0, 3).map(r => r.value).join(', ') || '---';
                     html += `
                         <div class="grammar-item" style="background:var(--bg3); border:1px solid var(--border); padding:12px; border-radius:var(--r); margin-bottom:10px;">
                             <div class="grammar-diff" style="display:flex; gap:10px; align-items:center; margin-bottom:4px;">
@@ -173,30 +276,38 @@ async function analyze() {
             }
         } catch(e) {
             loadingIndicator.style.display = 'none';
-            resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Grammatikprüfung.</div>`;
+            resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">${dict.conn_err}</div>`;
         }
         runBtn.disabled = false;
         return;
     }
 
-    // 3. NETLIFY-FUNCTION SENDER (Summary, Explain, Rephrase & Translate)
     try {
-        let modeToSend = "summary"; // Nutze immer den Summary Kanal deiner chat.js
+        let modeToSend = "summary"; 
         let textToSend = text;
+        
+        // Sprache der KI-Generierung basierend auf globaler App-Sprache steuern
+        let targetInstructionLanguage = "Deutsch";
+        if(currentLang === 'en-US') targetInstructionLanguage = "English";
+        if(currentLang === 'fr-FR') targetInstructionLanguage = "French";
+        if(currentLang === 'es-ES') targetInstructionLanguage = "Spanish";
 
         if (activeMode === 'explain') {
-            modeToSend = "explain"; // Reiner Nativ-Modus aus deiner chat.js
+            modeToSend = "summary"; 
+            textToSend = `Erkläre den folgenden Text extrem einfach, sodass ihn ein 10-jähriges Kind problemlos versteht. Antworte vollständig in der Sprache: ${targetInstructionLanguage}.\n\nTEXT:\n${text}`;
         } 
-        // FEATURE 3: Unsichtbare Systembefehl-Tricks für deine Umschreiber
+        else if (activeMode === 'summary') {
+            textToSend = `Fasse diesen Text kompakt zusammen. Nutze prägnante Stichpunkte. Antworte vollständig in der Sprache: ${targetInstructionLanguage}.\n\nTEXT:\n${text}`;
+        }
         else if (activeMode === 'rephrase_pro') {
-            textToSend = `Schreibe den folgenden Text komplett um. Nutze einen hochprofessionellen, akademischen und geschäftsmäßig korrekten Stil. Optimiere den Satzbau:\n\nTEXT:\n${text}`;
+            textToSend = `Schreibe den folgenden Text komplett um. Nutze einen hochprofessionellen, eleganten Stil. Antworte vollständig in der Sprache: ${targetInstructionLanguage}.\n\nTEXT:\n${text}`;
         } 
         else if (activeMode === 'rephrase_points') {
-            textToSend = `Wandle den gesamten Informationsgehalt des folgenden Textes in eine strukturierte, leicht lesbare Liste aus prägnanten Stichpunkten (mit Aufzählungszeichen) um:\n\nTEXT:\n${text}`;
+            textToSend = `Extrahiere alle Fakten und wandle sie in eine strukturierte Stichpunkt-Liste um. Antworte vollständig in der Sprache: ${targetInstructionLanguage}.\n\nTEXT:\n${text}`;
         } 
         else if (activeMode === 'translate') {
             const targetLang = document.getElementById('targetLangSelect').value;
-            textToSend = `Übersetze den folgenden Text präzise in die Sprache: ${targetLang}. Gib ausnahmslos NUR die fertige Übersetzung aus, keine Einleitungssätze!:\n\nTEXT:\n${text}`;
+            textToSend = `Übersetze den folgenden Text präzise in die Sprache: ${targetLang}. Gib ausnahmslos nur die Übersetzung aus:\n\nTEXT:\n${text}`;
         }
 
         const response = await fetch("/.netlify/functions/chat", {
@@ -211,12 +322,12 @@ async function analyze() {
         if (data.result) {
             resultBody.innerHTML = `<div class="result-text">${data.result.replace(/\n/g, '<br>')}</div>`;
         } else {
-            throw new Error("Fehlerhafte Antwort");
+            throw new Error("Error");
         }
 
     } catch (error) {
         loadingIndicator.style.display = 'none';
-        resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Verbindung zur Netlify-Function. Überprüfe den API-Key im Dashboard.</div>`;
+        resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">${dict.conn_err}</div>`;
     }
     runBtn.disabled = false;
 }
