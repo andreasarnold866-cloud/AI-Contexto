@@ -24,7 +24,7 @@ const TRANSLATIONS = {
     },
     'en-US': {
         nav_tool: 'Analysis Tool', nav_how: 'How it works', btn_dark: 'Dark Mode', btn_light: 'Light Mode',
-        hero_title: 'Understand and process text intelligently',
+        hero_title: 'Understand text intelligently and edit it',
         hero_sub: 'Contexto extracts key insights, corrects grammar, translates languages, rewrites text professionally, and analyzes documents.',
         hero_cta: 'Test Now', tool_title: 'The Analysis & Translation Platform',
         tool_sub: 'Paste text, upload a file, or select your preferred AI module',
@@ -47,7 +47,7 @@ const TRANSLATIONS = {
     },
     'fr-FR': {
         nav_tool: 'Outil d\'analyse', nav_how: 'Fonctionnement', btn_dark: 'Mode Sombre', btn_light: 'Mode Clair',
-        hero_title: 'Comprendre et traiter le texte de manière intelligente',
+        hero_title: 'Comprendre le texte de manière intelligente',
         hero_sub: 'Contexto filtre les points clés, corrige la grammaire, traduit les langues, réécrit professionnellement et analyse les documents.',
         hero_cta: 'Tester maintenant', tool_title: 'La plateforme d\'analyse et de traduction',
         tool_sub: 'Collez un texte, importez un fichier ou choisissez votre module IA',
@@ -61,7 +61,7 @@ const TRANSLATIONS = {
         pipe_label: 'Architecture Sécurisée', pipe_title: 'Pipeline de traitement des données',
         pipe_sub: 'Le chemin d\'une chaîne brute vers une fonction Serverless chiffrée',
         step1_title: 'Entrée Frontend', step1_desc: 'L\'utilisateur insère le texte ou charge un fichier. JavaScript extrait la valeur du DOM.',
-        step2_title: 'Netlify Function', step2_desc: 'Les données vont au backend. La clé API ist masquée en toute sécurité sur le serveur.',
+        step2_title: 'Netlify Function', step2_desc: 'Les données vont au backend. La clé API est masquée en toute sécurité sur le serveur.',
         step3_title: 'Inférence', step3_desc: 'Le modèle linguistique traite le texte via OpenRouter et génère la réponse.',
         step4_title: 'DOM Injection', step4_desc: 'Le résultat retourne au frontend et s\'affiche de manière fluide.',
         char_unit: ' caractères', word_unit: 'Mots', sentence_unit: 'Phrases', time_unit: 'env. {sec} sec.',
@@ -70,7 +70,7 @@ const TRANSLATIONS = {
     },
     'es-ES': {
         nav_tool: 'Herramienta', nav_how: 'Cómo funciona', btn_dark: 'Modo Oscuro', btn_light: 'Modo Claro',
-        hero_title: 'Comprende y edita textos de forma inteligente',
+        hero_title: 'Comprender textos de forma inteligente',
         hero_sub: 'Contexto filtra puntos clave, corrige gramática, traduce idiomas, reescribe profesionalmente y analiza documentos.',
         hero_cta: 'Probar ahora', tool_title: 'La Plataforma de Análisis y Traducción',
         tool_sub: 'Pega un texto, sube un archivo o elige tu módulo de IA',
@@ -88,7 +88,7 @@ const TRANSLATIONS = {
         step3_title: 'Inferencia', step3_desc: 'El modelo lingüístico procesa el texto a través de OpenRouter y genera la respuesta.',
         step4_title: 'DOM Injection', step4_desc: 'El resultado regresa al frontend y se despliega de manera fluida.',
         char_unit: ' caracteres', word_unit: 'Palabras', sentence_unit: 'Oraciones', time_unit: 'aprox. {sec} seg.',
-        grammar_ok: '🎉 ¡No se encontraron errores! La gramática y la ortografía son impecables.',
+        grammar_ok: '🎉 ¡No se encontraron errores! La gramática y la ontografía son impecables.',
         grammar_hint: 'Se encontraron las siguientes notas de corrección:', conn_err: 'Error de conexión con el servidor.'
     }
 };
@@ -125,7 +125,6 @@ function translatePage(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) {
-            // Spezieller Erhalt des <em> Tags im Hero-Titel beim Übersetzen
             if (key === 'hero_title') {
                 if (lang === 'de-DE') el.innerHTML = 'Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten';
                 else if (lang === 'en-US') el.innerHTML = 'Understand text <em class="highlight-word">intelligently</em> and edit it';
