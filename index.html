@@ -1,33 +1,206 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TextMind AI</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contexto – KI-gestützte Textanalyse-Plattform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
+<nav>
+    <a href="#" class="nav-logo">Context<span>o</span></a>
+    <ul class="nav-links">
+        <li><a href="#tool">Analyse-Tool</a></li>
+        <li><a href="#wie">Funktionsweise</a></li>
+        <li><a href="#reflexion">Projektreflexion</a></li>
+    </ul>
+    <span class="nav-badge">Informatik-Projekt · KI-Textanalyse</span>
+</nav>
 
-<h1>🧠 TextMind AI</h1>
-<p>KI Lern- & Analyse Tool</p>
+<section class="hero">
+    <div class="hero-glow"></div>
+    <p class="hero-eyebrow"><span class="eyebrow-dot"></span> Powered by LLM-Technologie</p>
+    <h1>Texte intelligent <em>verstehen</em> und analysieren</h1>
+    <p class="hero-sub">Contexto filtert Kernpunkte, bestimmt die Tonalität und berechnet komplexe Textstatistiken mithilfe moderner KI.</p>
+    <a href="#tool" class="hero-cta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Jetzt testen
+    </a>
+</section>
 
-<textarea id="input" placeholder="Text eingeben..."></textarea>
+<section class="about-section" id="ueber">
+    <div class="container">
+        <p class="section-label">Hintergrund</p>
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Natural Language Processing (NLP)</h2>
+                <p>Große Sprachmodelle (LLMs) revolutionieren die Art und Weise, wie Computer menschliche Sprache verarbeiten. Im Gegensatz zu klassischen Algorithmen zählen sie nicht nur Wörter, sondern erfassen semantische Zusammenhänge.</p>
+                <p>Diese Web-App demonstriert, wie fünf verschiedene linguistische Aufgaben über eine einzige Schnittstelle präzise gesteuert und ausgewertet werden können.</p>
+            </div>
+            <div class="about-cards">
+                <div class="about-card">
+                    <div class="about-card-icon">🧠</div>
+                    <h3>Semantischer Kontext</h3>
+                    <p>Die KI analysiert die versteckte Absicht (Tonalität) und filtert irrelevantes Rauschen heraus.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-card-icon">⚡</div>
+                    <h3>Strukturierte Daten</h3>
+                    <p>Die API-Antworten werden nativ verarbeitet, um Grafiken und Badges dynamisch im DOM zu generieren.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<div class="buttons">
-<button onclick="analyze('summary')">📄 Zusammenfassen</button>
-<button onclick="analyze('explain')">💡 Erklären</button>
-<button onclick="analyze('quiz')">🎯 Quiz</button>
-<button onclick="analyze('flashcards')">🧪 Karten</button>
-</div>
+<section class="tool-section" id="tool">
+    <div class="container">
+        <div class="tool-header">
+            <h2>Die Analyse-Plattform</h2>
+            <p>Füge einen Text ein und wähle das gewünschte KI-Modul aus</p>
+        </div>
+        
+        <div class="tool-card">
+            <div class="tool-topbar">
+                <div class="tb-left">
+                    <div class="tb-dots"><div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div></div>
+                    <span class="tb-title">contexto_core_engine.js</span>
+                </div>
+                <select class="lang-select" id="langSelect">
+                    <option value="de-DE">Deutsch (DE)</option>
+                    <option value="en-US">Englisch (US)</option>
+                    <option value="fr-FR">Französisch (FR)</option>
+                    <option value="es-ES">Spanisch (ES)</option>
+                </select>
+            </div>
 
-<div id="output"></div>
+            <div class="tool-body">
+                <div class="input-wrap">
+                    <textarea class="main" id="inputText" placeholder="Füge hier einen beliebigen Text ein – z.B. einen News-Artikel, eine E-Mail oder eine Produktbewertung..."></textarea>
+                    <span class="char-badge" id="charCount">0 Zeichen</span>
+                </div>
 
-</div>
+                <div class="label-sm">Beispieltexte laden:</div>
+                <div class="example-texts" id="examples">
+                    <button class="ex-btn" data-ex="news">📰 Wirtschaft-News</button>
+                    <button class="ex-btn" data-ex="review">⭐ Produktrezension</button>
+                    <button class="ex-btn" data-ex="essay">📝 Kurzessay</button>
+                    <button class="ex-btn" data-ex="email">✉️ Formelle E-Mail</button>
+                </div>
+
+                <div class="label-sm">Analyse-Modul:</div>
+                <div class="modes-row" id="modes">
+                    <button class="mode-btn active" data-mode="summary">📄 Zusammenfassung</button>
+                    <button class="mode-btn" data-mode="sentiment">💡 Tonalität / Sentiment</button>
+                    <button class="mode-btn" data-mode="keywords">🔑 Schlüsselwörter</button>
+                    <button class="mode-btn" data-mode="grammar">✏️ Grammatik-Stil</button>
+                    <button class="mode-btn" data-mode="stats">📊 Text-Metriken</button>
+                </div>
+
+                <div class="run-row">
+                    <button class="run-btn" id="runBtn" onclick="analyze()">Analyse ausführen</button>
+                    <button class="clear-btn" onclick="clearAll()">Zurücksetzen</button>
+                </div>
+
+                <div class="ki-warning-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span>KI kann Fehler machen. Überprüfe wichtige Antworten und Resultate sorgfältig.</span>
+                </div>
+
+                <div class="result-wrap" id="resultWrap">
+                    <div class="result-header">
+                        <h3 id="resultTitle">Ergebnis</h3>
+                        <span class="result-tag" id="resultTag" style="display:none"></span>
+                        <button class="copy-btn" id="copyBtn" onclick="copyResult()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            <span>Kopieren</span>
+                        </button>
+                    </div>
+                    <div id="resultBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-section" id="wie">
+    <div class="container">
+        <p class="section-label" style="text-align:center">Architektur</p>
+        <h2>Pipeline der Datenverarbeitung</h2>
+        <p class="sub">Der Weg von der rohen Zeichenkette zur grafischen Auswertung</p>
+        
+        <div class="steps">
+            <div class="step">
+                <span class="step-num">1</span>
+                <div class="step-icon">📋</div>
+                <h3>Sanitizing</h3>
+                <p>Der eingegebene Text wird eingelesen, von überflüssigen Leerzeichen bereinigt und die Token-Länge validiert.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">2</span>
+                <div class="step-icon">⚙️</div>
+                <h3>Prompting</h3>
+                <p>Je nach gewähltem Modus injiziert das Skript einen spezifischen System-Prompt, um das LLM deterministisch zu steuern.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <div class="step-icon">🤖</div>
+                <h3>Inferenz</h3>
+                <p>Das neuronale Netz verarbeitet die Daten über API-Schnittstellen live und liefert die berechneten Datenstrukturen zurück.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">4</span>
+                <div class="step-icon">📊</div>
+                <h3>Parsing</h3>
+                <p>Die generierte Struktur wird nativ geparst und über JavaScript fehlerfrei in das DOM injiziert.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="reflect-section" id="reflexion">
+    <div class="container">
+        <p class="section-label">Dokumentation</p>
+        <h2>Projektreflexion & Kriterien</h2>
+        <p style="color:var(--text2); margin-bottom:3rem;">Entwickelt als Eigenleistung für das Schulfach Informatik zur Demonstration von Prompt-Engineering und Frontend-Anbindung.</p>
+        
+        <div class="reflect-grid">
+            <div class="reflect-card">
+                <h3>💬 Stärken von LLMs bei Texten</h3>
+                <ul>
+                    <li>Erkennung von Sarkasmus und impliziten Stimmungen im Sentiment-Modul.</li>
+                    <li>Abstraktionsfähigkeit: Erstellung echter Zusammenfassungen statt bloßem Ausschneiden von Sätzen.</li>
+                    <li>Sprachunabhängig einsetzbar (funktioniert fehlerfrei auf Deutsch und Englisch).</li>
+                </ul>
+            </div>
+            <div class="reflect-card">
+                <h3>⚠️ Bekannte Limitierungen</h3>
+                <ul>
+                    <li>Gefahr von Halluzinationen bei extrem spezifischen Fachfragen.</li>
+                    <li>Determinismus: Ein Sprachmodell liefert bei identischem Prompt nicht zwingend die exakt gleiche Formulierung.</li>
+                    <li>Hoher Rechenaufwand (Inferenzkosten) im Vergleich zu Regex-Filtern.</li>
+                </ul>
+            </div>
+            <div class="reflect-card">
+                <h3>🛠️ Technischer Stack</h3>
+                <p>Die Applikation wurde bewusst ohne schwere Frameworks in purem HTML5, modernem CSS3 (Custom Properties, Grid, Flexbox) und Vanilla JavaScript implementiert. Das stellt eine barrierefreie Ausführung sicher.</p>
+            </div>
+            <div class="reflect-card">
+                <h3>💡 Informatischer Eigenwert</h3>
+                <p>Das Projekt kombiniert klassische Webtechnologien mit dem modernen concept des <em>Prompt-Engineerings</em>. Anstatt starrer Programmierung wird das Verhalten der Auswertung flexibel moduliert.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Contexto · Projektarbeit Informatik · Gehostet via GitHub Pages</p>
+</footer>
 
 <script src="script.js"></script>
-
 </body>
 </html>
