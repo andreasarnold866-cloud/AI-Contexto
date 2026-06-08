@@ -7,14 +7,12 @@ const EXAMPLES = {
 
 const TITLES = { 
     summary: 'Zusammenfassung', 
-    sentiment: 'Tonalität / Sentiment-Analyse', 
-    keywords: 'Extrahierte Schlüsselwörter', 
+    explain: 'Einfache Erklärung (für Schüler)', 
+    quiz: 'Generiertes Quiz (5 Fragen & Lösungen)', 
+    flashcards: 'Erstellte Lernkarten', 
     grammar: 'Grammatik- & Stilprüfung', 
     stats: 'Berechnete Text-Metriken' 
 };
-
-// Netlify injiziert den Key automatisch über dieses spezielle Objekt in die Umgebung variablen.
-const OPENROUTER_API_KEY = typeof process !== 'undefined' && process.env ? process.env.OPENROUTER_API_KEY : "";
 
 let activeMode = 'summary';
 
@@ -87,20 +85,16 @@ async function analyze() {
     resultTag.style.display = 'none';
     resultTitle.textContent = TITLES[activeMode];
     resultWrap.classList.add('show');
-    resultBody.innerHTML = '<div class="result-text">KI analysiert den Text via OpenRouter...</div>';
+    resultBody.innerHTML = '<div class="result-text">KI analysiert den Text über Netlify Functions...</div>';
     
+    // Lokale Text-Metriken (ohne Server-Call)
     if(activeMode === 'stats') {
         resultBody.innerHTML = getLocalStats(text);
         runBtn.disabled = false;
         return;
     }
 
-    const PROMPTS = {
-        summary: "Fasse den folgenden Text kurz, präzise und in nummerierten Aufzählungspunkten auf Deutsch zusammen:\n\n",
-        sentiment: "Analysiere die Tonalität des folgenden Textes auf Deutsch. Antworte AUSSCHLIESSLICH in folgendem Format:\nScore: [Zahl zwischen 0 und 100, wobei 0 extrem negativ, 50 neutral und 100 extrem positiv ist]\nBegründung: [Deine präzise Erklärung auf Deutsch]\n\nText:\n",
-        keywords: "Extrahiere die 5 wichtigsten Schlüsselwörter aus dem folgenden Text als kommagetrennte Liste (Antworte nur mit den Wörtern, getrennt durch Kommas, kein Präfix):\n\n"
-    };
-
+    // Externe Grammatikprüfung via LanguageTool API
     if(activeMode === 'grammar') {
         try {
             const lang = document.getElementById('langSelect')?.value || 'de-DE';
@@ -143,65 +137,30 @@ async function analyze() {
         return;
     }
 
+    // KI-Abfragen (Zusammenfassung, Erklären, Quiz, Lernkarten) rufen deine Netlify Function auf
     try {
-        const systemPrompt = PROMPTS[activeMode] || "Analysiere den Text:";
-        
-        // Verwende den schnellen und kostenfreien 'meta-llama/llama-3-8b-instruct:free' Endpoint von OpenRouter
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        const response = await fetch("/.netlify/functions/chat", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "meta-llama/llama-3-8b-instruct:free", 
-                messages: [
-                    { role: "user", content: systemPrompt + text }
-                ]
+                text: text,
+                mode: activeMode
             })
         });
 
         const data = await response.json();
-        if(!data.choices || data.choices.length === 0) throw new Error("Keine Antwort von der API");
-        const aiResponse = data.choices[0].message.content.trim();
-
-        if(activeMode === 'summary') {
-            resultBody.innerHTML = `<div class="result-text">${aiResponse.replace(/\n/g, '<br>')}</div>`;
-            
-        } else if(activeMode === 'sentiment') {
-            let score = 50;
-            let begründung = aiResponse;
-            
-            const scoreMatch = aiResponse.match(/Score:\s*(\d+)/i);
-            const textMatch = aiResponse.match(/Begründung:\s*([\s\S]+)/i);
-            
-            if(scoreMatch) score = parseInt(scoreMatch[1]);
-            if(textMatch) begründung = textMatch[1].trim();
-
-            let sentiment = score > 55 ? "positiv" : score < 45 ? "negativ" : "neutral";
-            resultTag.style.display = 'inline-block';
-            resultTag.textContent = sentiment.toUpperCase();
-            resultTag.className = 'result-tag ' + (sentiment === 'positiv' ? 'tag-pos' : sentiment === 'negativ' ? 'tag-neg' : 'tag-neu');
-
-            resultBody.innerHTML = `
-                <div class="sentiment-meter">
-                    <div class="meter-labels"><span>Negativ</span><span>Neutral</span><span>Positiv</span></div>
-                    <div class="meter-track"><div class="meter-fill" style="width: ${score}%; background: ${score > 55 ? 'var(--green)' : score < 45 ? 'var(--red)' : 'var(--amber)'}"></div></div>
-                    <div class="meter-score">${score}<span> / 100</span></div>
-                </div>
-                <div class="result-text" style="margin-top: 15px;"><strong>KI-Begründung:</strong> ${begründung}</div>
-            `;
-            
-        } else if(activeMode === 'keywords') {
-            let kwArray = aiResponse.split(',').map(k => k.replace(/[.\s]/g, ""));
-            let html = '<div class="kw-grid">';
-            kwArray.forEach(k => { if(k) html += `<span class="kw-chip">${k}</span>`; });
-            html += '</div>';
-            resultBody.innerHTML = html;
+        
+        if (data.result) {
+            // Zeige die KI-Antwort an und konvertiere Zeilenumbrüche in lesbares HTML
+            resultBody.innerHTML = `<div class="result-text">${data.result.replace(/\n/g, '<br>')}</div>`;
+        } else {
+            throw new Error("Fehlerhafte Server-Antwort");
         }
 
     } catch (error) {
-        resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Verbindung mit OpenRouter oder API-Key fehlt. Bitte lade die App über Netlify mit gesetzten Environment Variables.</div>`;
+        resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Verbindung zur Netlify Function. Stelle sicher, dass der API-Key im Netlify Dashboard hinterlegt ist.</div>`;
     }
     runBtn.disabled = false;
 }
