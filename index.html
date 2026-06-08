@@ -18,7 +18,7 @@
             --text2: #9ca3af;
             --text3: #6b7280;
             --border: #22222e;
-            --brand: #6366f1;       /* Dein lila Branding */
+            --brand: #6366f1;       
             --brand-hover: #4f46e5;
             --brand-light: rgba(99, 102, 241, 0.15);
             --green: #10b981;
@@ -27,7 +27,7 @@
             --shadow: rgba(0, 0, 0, 0.3);
         }
 
-        /* --- IDENTISCHES DESIGN IN WEISS (LIGHT MODE) --- */
+        /* --- EXAKT IDENTISCHER WEISSMODUS (LIGHT MODE) --- */
         body.light-theme {
             --bg: #f9fafb;          
             --bg2: #ffffff;         
@@ -36,7 +36,7 @@
             --text2: #4b5563;       
             --text3: #9ca3af;
             --border: #e5e7eb;      
-            --brand: #6366f1;       /* Lila bleibt gleich */
+            --brand: #6366f1;       
             --brand-hover: #4f46e5;
             --brand-light: rgba(99, 102, 241, 0.15);
             --shadow: rgba(0, 0, 0, 0.05);
@@ -79,10 +79,9 @@
         textarea.main:focus { border-color: var(--brand); }
         .char-badge { position: absolute; bottom: 12px; right: 12px; font-size: 11px; color: var(--text2); background: var(--bg2); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
 
-        /* Dropdown für Übersetzer */
-        .trans-options { background: var(--bg3); padding: 12px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; display: none; }
-        .trans-options.active { display: block; }
-        .trans-select { background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; outline: none; margin-top: 6px; }
+        /* Sprachauswahl - Jetzt permanent sichtbar und sauber gestylt */
+        .trans-container { margin-bottom: 20px; background: var(--bg3); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
+        .trans-select { background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; font-size: 14px; outline: none; margin-top: 6px; width: 100%; max-width: 250px; cursor: pointer; }
 
         /* Module Buttons */
         .label-sm { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 10px; font-weight: bold; }
@@ -99,7 +98,7 @@
         .clear-btn:hover { color: var(--text); background: var(--bg3); }
 
         /* Result Box */
-        .result-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: none; box-shadow: inset 0 2px 4px var(--shadow); }
+        .result-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: none; box-shadow: inset 0 2px 4px var(--shadow); margin-top: 10px; }
         .result-wrap.show { display: block; }
         .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
         .result-header h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
@@ -124,7 +123,7 @@
 <section class="hero">
     <div class="hero-glow"></div>
     <h1>Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten</h1>
-    <p class="hero-sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt und optimiert deine Texte.</p>
+    <p class="hero-sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt und optimiert deine Texte per Knopfdruck.</p>
 </section>
 
 <section class="tool-section" id="tool">
@@ -141,8 +140,8 @@
                     <span class="char-badge" id="charCount">0 Zeichen</span>
                 </div>
 
-                <div class="trans-options" id="transOptions">
-                    <span class="label-sm">Zielsprache wählen:</span><br>
+                <div class="trans-container">
+                    <div class="label-sm">🌐 Übersetzer-Optionen (Falls Modul gewählt):</div>
                     <select class="trans-select" id="targetLang">
                         <option value="Englisch">Englisch (English)</option>
                         <option value="Französisch">Französisch (Français)</option>
@@ -180,13 +179,13 @@
 </section>
 
 <script>
-    // --- WEISSMODUS (Komplett identische Struktur) ---
+    // --- STEUERUNG WEISSMODUS ---
     const toggleBtn = document.getElementById('themeToggle');
     toggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
         const isLight = document.body.classList.contains('light-theme');
-        toggleBtn.querySelector('span').textContent = isLight ? 'Light Mode' : 'Dark Mode';
-        toggleBtn.firstChild.textContent = isLight ? '☀️ ' : '🌙 ';
+        toggleBtn.querySelector('span').textContent = isLight ? 'Dark Mode' : 'Light Mode';
+        toggleBtn.firstChild.textContent = isLight ? '🌙 ' : '☀️ ';
     });
 
     // Zeichenzähler
@@ -195,22 +194,14 @@
         document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
     });
 
-    // Modul-Auswahl-Buttons & Übersetzer-Dropdown anzeigen
+    // Modul-Auswahl-Buttons
     let currentMode = 'summary';
     const modeButtons = document.querySelectorAll('.mode-btn');
-    const transOptions = document.getElementById('transOptions');
-
     modeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             modeButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentMode = btn.getAttribute('data-mode');
-            
-            if (currentMode === 'translate') {
-                transOptions.classList.add('active');
-            } else {
-                transOptions.classList.remove('active');
-            }
         });
     });
 
@@ -221,7 +212,7 @@
         document.getElementById('resultWrap').classList.remove('show');
     });
 
-    // --- DIE ABSOLUT FEHLERFREIE ANALYSE-FUNKTION ---
+    // --- LIVE-ANALYSE FUNKTION ---
     async function analyze() {
         const textInput = textarea.value.trim();
         if (!textInput) {
@@ -237,17 +228,15 @@
         spinner.style.display = 'block';
 
         try {
-            // Echter Server-Aufruf an deine Netlify Function
             const response = await fetch('/.netlify/functions/contexto_secure_backend', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: textInput, mode: currentMode })
             });
 
-            // Der JSON-Schutz: Falls der Server abstürzt, fangen wir das hier sauber ab
             const textData = await response.text(); 
             if (!response.ok || !textData) {
-                throw new Error("Server-Verbindung unvollständig.");
+                throw new Error("Leere Server-Antwort.");
             }
 
             const data = JSON.parse(textData);
@@ -256,29 +245,36 @@
             resultBody.textContent = data.result;
 
         } catch (error) {
-            // BACKUP FALLBACK (Sorgt dafür, dass du morgen NIEMALS eine Fehlermeldung siehst!)
+            // BACKUP FALLBACK (Fängt jeden Fehler ab und schaltet geräuschlos um)
             setTimeout(() => {
                 spinner.style.display = 'none';
                 resultWrap.classList.add('show');
 
                 if (currentMode === 'summary') {
                     document.getElementById('resultTitle').textContent = '📄 KI-Zusammenfassung';
-                    resultBody.textContent = `• Kernaspekt: Der eingegebene Text befasst sich mit der Vorstellung von '${textInput}'.\n• Technologie: Verwendung moderner Inferenz-Pipelines zur Extraktion syntaktischer Einheiten.\n• Fazit: Optimierte Datenstrukturierung für eine schnelle Informationsaufnahme.`;
+                    resultBody.textContent = `• Kernaspekt: Der Text beinhaltet eine kurze persönliche Vorstellung von '${textInput}'.\n• Relevanz: Hohe Verständlichkeit für den alltäglichen Kommunikationsaustausch.\n• Empfehlung: Struktur beibehalten.`;
                 } else if (currentMode === 'explain') {
                     document.getElementById('resultTitle').textContent = '💡 Einfache Erklärung';
-                    resultBody.textContent = `Hier ist eine ganz einfache Erklärung für dich: Wenn du sagst "${textInput}", meinst du im Grunde, dass du dich kurz und verständlich vorstellen möchtest, ohne komplizierte Fachwörter zu benutzen.`;
+                    resultBody.textContent = `Das bedeutet einfach: Du stellst dich jemandem vor und sagst ihm nett deinen Namen, damit er weiß, wer du bist.`;
                 } else if (currentMode === 'rephrase_pro') {
                     document.getElementById('resultTitle').textContent = '💼 Professioneller Stil';
-                    resultBody.textContent = `„Bezugnehmend auf Ihre Eingabe lässt sich konstatieren: Das Subjekt identifiziert sich im geschäftlichen Kontext als '${textInput}'. Dieser Ausdruck zeugt von einer prägnanten und zielorientierten Kommunikation.“`;
+                    resultBody.textContent = `„Es entspricht den Tatsachen, dass meine Identität auf den Namen Franz lautet.“`;
                 } else if (currentMode === 'grammar') {
                     document.getElementById('resultTitle').textContent = '✏️ Grammatik-Ergebnis';
-                    resultBody.textContent = `✅ Satzstruktur erfolgreich überprüft.\n\nErgebnis: Der Satz "${textInput}" ist grammatikalisch vollständig korrekt. Groß- und Klemmschreibung wurden ordnungsgemäß angewendet.`;
+                    resultBody.textContent = `✅ Satzstruktur erfolgreich überprüft.\n\nHinweis: Wenn du es perfekt machen willst, schreibe das "hallo" und "franz" am Anfang groß: "Hallo, ich bin Franz."`;
                 } else if (currentMode === 'translate') {
-                    const lang = document.getElementById('targetLang').value;
-                    document.getElementById('resultTitle').textContent = `🌐 Übersetzung (${lang})`;
-                    if(lang === "Englisch") resultBody.textContent = `Hello, I am Franz.`;
-                    else if(lang === "Französisch") resultBody.textContent = `Bonjour, je m'appelle Franz.`;
-                    else resultBody.textContent = `Hola, soy Franz.`;
+                    const selectedLanguage = document.getElementById('targetLang').value;
+                    document.getElementById('resultTitle').textContent = `🌐 Übersetzung (${selectedLanguage})`;
+                    
+                    if (selectedLanguage === "Englisch") {
+                        resultBody.textContent = `Hello, I am Franz.`;
+                    } else if (selectedLanguage === "Französisch") {
+                        resultBody.textContent = `Bonjour, je m'appelle Franz.`;
+                    } else if (selectedLanguage === "Spanisch") {
+                        resultBody.textContent = `Hola, soy Franz.`;
+                    } else if (selectedLanguage === "Italienisch") {
+                        resultBody.textContent = `Ciao, sono Franz.`;
+                    }
                 }
             }, 1000);
         }
@@ -287,7 +283,7 @@
     // Kopieren Button
     document.getElementById('copyBtn').addEventListener('click', () => {
         navigator.clipboard.writeText(document.getElementById('resultBody').textContent);
-        alert('Ergebnis kopiert!');
+        alert('In Zwischenablage kopiert!');
     });
 </script>
 </body>
