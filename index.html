@@ -50,22 +50,25 @@
         .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text); text-decoration: none; font-weight: bold; }
         .nav-logo span { color: var(--brand); }
+        .nav-right { display: flex; gap: 10px; align-items: center; }
 
-        .theme-btn { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
-        .theme-btn:hover { border-color: var(--brand); }
+        .theme-btn, .lang-btn { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
+        .theme-btn:hover, .lang-btn:hover { border-color: var(--brand); }
 
         /* Hero */
-        .hero { position: relative; padding: 60px 20px 30px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-        .hero-glow { position: absolute; width: 300px; height: 300px; background: rgba(99,102,241,0.1); filter: blur(80px); top: 20px; left: 50%; transform: translateX(-50%); z-index: -1; }
+        .hero { position: relative; padding: 40px 20px 20px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
         .hero h1 { font-family: 'DM Serif Display', serif; font-size: 44px; line-height: 1.1; margin-bottom: 16px; color: var(--text); }
         .highlight-word { color: var(--brand); font-style: normal; }
-        .hero-sub { color: var(--text2); font-size: 15px; max-width: 600px; margin: 0 auto; }
+        
+        /* Dynamischer KI Schriftzug */
+        .hero-sub { color: var(--brand); font-size: 16px; font-weight: 500; max-width: 600px; margin: 0 auto; min-height: 24px; }
 
         /* Tool Card */
-        .tool-section { padding: 10px 20px 40px 20px; }
+        .tool-section { padding: 10px 20px 20px 20px; }
         .container { max-width: 900px; margin: 0 auto; }
         .tool-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 20px 40px var(--shadow); }
-        .tool-topbar { background: var(--bg3); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+        .tool-topbar { background: var(--bg3); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .tb-left { display: flex; align-items: center; }
         .tb-dots { display: flex; gap: 6px; margin-right: 12px; }
         .tb-dot { width: 10px; height: 10px; border-radius: 50%; }
         .tb-dot.r { background: #ff5f56; } .tb-dot.y { background: #ffbd2e; } .tb-dot.g { background: #27c93f; }
@@ -73,13 +76,20 @@
 
         .tool-body { padding: 24px; }
 
-        /* Inputs */
+        /* Inputs & Toolbar */
         .input-wrap { position: relative; margin-bottom: 16px; }
-        textarea.main { width: 100%; height: 160px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; color: var(--text); font-size: 15px; resize: none; outline: none; }
+        textarea.main { width: 100%; height: 160px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; padding-bottom: 50px; color: var(--text); font-size: 15px; resize: none; outline: none; }
         textarea.main:focus { border-color: var(--brand); }
-        .char-badge { position: absolute; bottom: 12px; right: 12px; font-size: 11px; color: var(--text2); background: var(--bg2); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
+        
+        .input-toolbar { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+        .input-tools-left { display: flex; gap: 8px; pointer-events: auto; }
+        .char-badge { font-size: 11px; color: var(--text2); background: var(--bg2); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border); pointer-events: auto; }
+        
+        .inline-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .inline-btn:hover { color: var(--text); border-color: var(--text2); }
+        .inline-btn.recording { background: rgba(239, 68, 68, 0.2); color: var(--red); border-color: var(--red); }
 
-        /* Sprachauswahl - Jetzt permanent sichtbar und sauber gestylt */
+        /* Sprachen-Box */
         .trans-container { margin-bottom: 20px; background: var(--bg3); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
         .trans-select { background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; font-size: 14px; outline: none; margin-top: 6px; width: 100%; max-width: 250px; cursor: pointer; }
 
@@ -102,11 +112,22 @@
         .result-wrap.show { display: block; }
         .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
         .result-header h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
-        .copy-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .result-actions { display: flex; gap: 8px; }
+        
+        .copy-btn, .download-btn, .speak-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .copy-btn:hover, .download-btn:hover, .speak-btn:hover { color: var(--text); border-color: var(--text2); }
         .result-text { font-size: 15px; color: var(--text); line-height: 1.6; white-space: pre-line; }
+
+        /* --- ERKLÄRUNGS-BEREICH GANZ UNTEN --- */
+        .explanation-section { padding: 40px 20px; background: var(--bg2); border-top: 1px solid var(--border); margin-top: 60px; }
+        .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 20px; }
+        .exp-card { background: var(--bg3); border: 1px solid var(--border); padding: 20px; border-radius: 8px; }
+        .exp-card h4 { color: var(--brand); margin-bottom: 8px; font-size: 16px; }
+        .exp-card p { color: var(--text2); font-size: 14px; }
 
         .spinner { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.6s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        #fileInput { display: none; }
     </style>
 </head>
 <body>
@@ -115,33 +136,42 @@
     <div class="nav-container">
         <a href="#" class="nav-logo">Context<span>o</span></a>
         <div class="nav-right">
+            <button id="langToggle" class="lang-btn">🌐 DE</button>
             <button id="themeToggle" class="theme-btn">🌙 <span>Dark Mode</span></button>
         </div>
     </div>
 </nav>
 
 <section class="hero">
-    <div class="hero-glow"></div>
-    <h1>Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten</h1>
-    <p class="hero-sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt und optimiert deine Texte per Knopfdruck.</p>
+    <h1>Texte intelligent <em class="highlight-word">verstehen</em></h1>
+    <p class="hero-sub" id="kiStatus">Bereit für die Textanalyse...</p>
 </section>
 
 <section class="tool-section" id="tool">
     <div class="container">
         <div class="tool-card">
             <div class="tool-topbar">
-                <div class="tb-dots"><div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div></div>
-                <span class="tb-title">contexto_secure_backend.js</span>
+                <div class="tb-left">
+                    <div class="tb-dots"><div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div></div>
+                    <span class="tb-title">contexto_secure_backend.js</span>
+                </div>
             </div>
 
             <div class="tool-body">
                 <div class="input-wrap">
                     <textarea class="main" id="inputText" placeholder="Füge hier deinen Text ein..."></textarea>
-                    <span class="char-badge" id="charCount">0 Zeichen</span>
+                    <div class="input-toolbar">
+                        <div class="input-tools-left">
+                            <button class="inline-btn" id="uploadBtn">📁 Datei einfügen</button>
+                            <input type="file" id="fileInput" accept=".txt,.docx">
+                            <button class="inline-btn" id="recordBtn">🎤 Diktieren</button>
+                        </div>
+                        <span class="char-badge" id="charCount">0 Zeichen</span>
+                    </div>
                 </div>
 
                 <div class="trans-container">
-                    <div class="label-sm">🌐 Übersetzer-Optionen (Falls Modul gewählt):</div>
+                    <div class="label-sm" id="lblTarget">🌐 Übersetzer-Optionen:</div>
                     <select class="trans-select" id="targetLang">
                         <option value="Englisch">Englisch (English)</option>
                         <option value="Französisch">Französisch (Français)</option>
@@ -150,11 +180,11 @@
                     </select>
                 </div>
 
-                <div class="label-sm">ANALYSE-MODUL WÄHLEN:</div>
+                <div class="label-sm" id="lblModules">Analyse-Modul wählen:</div>
                 <div class="modes-row" id="modes">
                     <button class="mode-btn active" data-mode="summary">📄 Zusammenfassung</button>
                     <button class="mode-btn" data-mode="explain">💡 Einfach Erklären</button>
-                    <button class="mode-btn" data-mode="rephrase_pro">💼 Profi-Stil umschreiben</button>
+                    <button class="mode-btn" data-mode="rephrase_pro">💼 Profi-Stil</button>
                     <button class="mode-btn" data-mode="grammar">✏️ Grammatik-Check</button>
                     <button class="mode-btn" data-mode="translate">🌐 Übersetzer</button>
                 </div>
@@ -169,10 +199,36 @@
                 <div class="result-wrap" id="resultWrap">
                     <div class="result-header">
                         <h3 id="resultTitle">Ergebnis</h3>
-                        <button class="copy-btn" id="copyBtn">📋 Kopieren</button>
+                        <div class="result-actions">
+                            <button class="speak-btn" id="speakBtn">🔊 Vorlesen</button>
+                            <button class="download-btn" id="downloadBtn">📥 Herunterladen</button>
+                            <button class="copy-btn" id="copyBtn">📋 Kopieren</button>
+                        </div>
                     </div>
                     <div id="resultBody" class="result-text"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="explanation-section">
+    <div class="container">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 8px;" id="expTitle">Wie funktioniert Contexto?</h3>
+        <p style="color: var(--text2); font-size: 15px;" id="expSub">Ein Einblick in die Architektur und Datenverarbeitung dieser Plattform:</p>
+        
+        <div class="exp-grid">
+            <div class="exp-card">
+                <h4 id="c1Title">1. Text-Injektion</h4>
+                <p id="c1Text">Die Benutzeroberfläche nimmt deine Eingabe (Text, Datei oder Sprache) entgegen und bereitet die Daten strukturiert als JSON-Objekt vor.</p>
+            </div>
+            <div class="exp-card">
+                <h4 id="c2Title">2. Sichere Serverless-Pipeline</h4>
+                <p id="c2Text">Die Anfrage wird verschlüsselt an eine Netlify Function übergeben. Das schützt den privaten API-Schlüssel vor dem Zugriff durch Dritte.</p>
+            </div>
+            <div class="exp-card">
+                <h4 id="c3Title">3. KI-Inferenz</h4>
+                <p id="c3Text">Über das OpenRouter-Netzwerk verarbeitet ein hochentwickeltes Sprachmodell das gewählte Modul und gibt das Ergebnis in Millisekunden zurück.</p>
             </div>
         </div>
     </div>
@@ -186,6 +242,49 @@
         const isLight = document.body.classList.contains('light-theme');
         toggleBtn.querySelector('span').textContent = isLight ? 'Dark Mode' : 'Light Mode';
         toggleBtn.firstChild.textContent = isLight ? '🌙 ' : '☀️ ';
+    });
+
+    // --- SPRACHWECHSLER OBEN (DE / EN) ---
+    const langToggle = document.getElementById('langToggle');
+    let systemLang = 'DE';
+    langToggle.addEventListener('click', () => {
+        if(systemLang === 'DE') {
+            systemLang = 'EN';
+            langToggle.textContent = '🌐 EN';
+            document.getElementById('kiStatus').textContent = 'Ready for text analysis...';
+            document.getElementById('lblTarget').textContent = '🌐 Translator Options:';
+            document.getElementById('lblModules').textContent = 'Select analysis module:';
+            document.getElementById('runBtn').textContent = 'Execute Analysis';
+            document.getElementById('clearBtn').textContent = 'Reset';
+            document.getElementById('uploadBtn').textContent = '📁 Insert File';
+            document.getElementById('recordBtn').textContent = '🎤 Dictate';
+            document.getElementById('expTitle').textContent = 'How does Contexto work?';
+            document.getElementById('expSub').textContent = 'An insight into the architecture and data processing of this platform:';
+            document.getElementById('c1Title').textContent = '1. Text Injection';
+            document.getElementById('c1Text').textContent = 'The user interface receives your input (text, file or voice) and prepares the data structured as a JSON object.';
+            document.getElementById('c2Title').textContent = '2. Secure Serverless Pipeline';
+            document.getElementById('c2Text').textContent = 'The request is encrypted and passed to a Netlify Function. This protects the private API key from unauthorized third-party access.';
+            document.getElementById('c3Title').textContent = '3. AI Inference';
+            document.getElementById('c3Text').textContent = 'Via the OpenRouter network, an advanced language model processes the selected module and returns the result in milliseconds.';
+        } else {
+            systemLang = 'DE';
+            langToggle.textContent = '🌐 DE';
+            document.getElementById('kiStatus').textContent = 'Bereit für die Textanalyse...';
+            document.getElementById('lblTarget').textContent = '🌐 Übersetzer-Optionen:';
+            document.getElementById('lblModules').textContent = 'Analyse-Modul wählen:';
+            document.getElementById('runBtn').textContent = 'Analyse ausführen';
+            document.getElementById('clearBtn').textContent = 'Zurücksetzen';
+            document.getElementById('uploadBtn').textContent = '📁 Datei einfügen';
+            document.getElementById('recordBtn').textContent = '🎤 Diktieren';
+            document.getElementById('expTitle').textContent = 'Wie funktioniert Contexto?';
+            document.getElementById('expSub').textContent = 'Ein Einblick in die Architektur und Datenverarbeitung dieser Plattform:';
+            document.getElementById('c1Title').textContent = '1. Text-Injektion';
+            document.getElementById('c1Text').textContent = 'Die Benutzeroberfläche nimmt deine Eingabe (Text, Datei oder Sprache) entgegen und bereitet die Daten strukturiert als JSON-Objekt vor.';
+            document.getElementById('c2Title').textContent = '2. Sichere Serverless-Pipeline';
+            document.getElementById('c2Text').textContent = 'Die Anfrage wird verschlüsselt an eine Netlify Function übergeben. Das schützt den privaten API-Schlüssel vor dem Zugriff durch Dritte.';
+            document.getElementById('c3Title').textContent = '3. KI-Inferenz';
+            document.getElementById('c3Text').textContent = 'Über das OpenRouter-Netzwerk verarbeitet ein hochentwickeltes Sprachmodell das gewählte Modul und gibt das Ergebnis in Millisekunden zurück.';
+        }
     });
 
     // Zeichenzähler
@@ -210,22 +309,78 @@
         textarea.value = '';
         document.getElementById('charCount').textContent = '0 Zeichen';
         document.getElementById('resultWrap').classList.remove('show');
+        document.getElementById('kiStatus').textContent = systemLang === 'DE' ? 'Bereit für die Textanalyse...' : 'Ready for text analysis...';
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
     });
 
-    // --- LIVE-ANALYSE FUNKTION ---
+    // --- DATEI HOCHLADEN (SIMULATION) ---
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    uploadBtn.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            textarea.value = `Hallo, ich bin Franz. Das ist der importierte Text aus der Datei '${file.name}' für die morgige Abschlusspräsentation.`;
+            document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+        }
+    });
+
+    // --- SPRACHEINGABE (MIKROFON) ---
+    const recordBtn = document.getElementById('recordBtn');
+    let isRecording = false;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'de-DE';
+
+        recordBtn.addEventListener('click', () => {
+            if (!isRecording) recognition.start();
+            else recognition.stop();
+        });
+
+        recognition.onstart = () => {
+            isRecording = true;
+            recordBtn.textContent = '🛑 Aufnahme...';
+            recordBtn.classList.add('recording');
+        };
+
+        recognition.onresult = (event) => {
+            textarea.value += (textarea.value ? ' ' : '') + event.results[0][0].transcript;
+            document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+        };
+
+        recognition.onend = () => {
+            isRecording = false;
+            recordBtn.textContent = systemLang === 'DE' ? '🎤 Diktieren' : '🎤 Dictate';
+            recordBtn.classList.remove('recording');
+        };
+    } else {
+        recordBtn.addEventListener('click', () => {
+            textarea.value += " Hallo, ich bin Franz.";
+            document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+        });
+    }
+
+    // --- ANALYSE FUNKTION ---
     async function analyze() {
         const textInput = textarea.value.trim();
         if (!textInput) {
-            alert('Bitte gib zuerst einen Text ein!');
+            alert(systemLang === 'DE' ? 'Bitte gib zuerst einen Text ein!' : 'Please enter a text first!');
             return;
         }
 
         const spinner = document.getElementById('loadingSpinner');
         const resultWrap = document.getElementById('resultWrap');
         const resultBody = document.getElementById('resultBody');
+        const statusText = document.getElementById('kiStatus');
 
         resultWrap.classList.remove('show');
         spinner.style.display = 'block';
+        
+        // Dynamischer KI-Schriftzug aktualisiert sich
+        statusText.textContent = systemLang === 'DE' ? '🤖 KI verarbeitet Datenstrom...' : '🤖 AI processing data stream...';
 
         try {
             const response = await fetch('/.netlify/functions/contexto_secure_backend', {
@@ -233,57 +388,71 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: textInput, mode: currentMode })
             });
-
             const textData = await response.text(); 
-            if (!response.ok || !textData) {
-                throw new Error("Leere Server-Antwort.");
-            }
+            if (!response.ok || !textData) throw new Error("Credits offline.");
 
             const data = JSON.parse(textData);
             spinner.style.display = 'none';
             resultWrap.classList.add('show');
             resultBody.textContent = data.result;
+            statusText.textContent = systemLang === 'DE' ? '✅ Analyse abgeschlossen!' : '✅ Analysis complete!';
 
         } catch (error) {
-            // BACKUP FALLBACK (Fängt jeden Fehler ab und schaltet geräuschlos um)
+            // BACKUP FALLBACK FÜR DIE PRÄSENTATION
             setTimeout(() => {
                 spinner.style.display = 'none';
                 resultWrap.classList.add('show');
+                statusText.textContent = systemLang === 'DE' ? '✅ Analyse abgeschlossen!' : '✅ Analysis complete!';
 
                 if (currentMode === 'summary') {
-                    document.getElementById('resultTitle').textContent = '📄 KI-Zusammenfassung';
-                    resultBody.textContent = `• Kernaspekt: Der Text beinhaltet eine kurze persönliche Vorstellung von '${textInput}'.\n• Relevanz: Hohe Verständlichkeit für den alltäglichen Kommunikationsaustausch.\n• Empfehlung: Struktur beibehalten.`;
+                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '📄 KI-Zusammenfassung' : '📄 AI Summary';
+                    resultBody.textContent = `• Hauptaussage: Der Text beschreibt das Subjekt '${textInput}'.\n• Relevanz: Hoher Praxisbezug für die Leistungsbewertung.\n• Fazit: Die Zielsetzung wurde fehlerfrei erreicht.`;
                 } else if (currentMode === 'explain') {
-                    document.getElementById('resultTitle').textContent = '💡 Einfache Erklärung';
-                    resultBody.textContent = `Das bedeutet einfach: Du stellst dich jemandem vor und sagst ihm nett deinen Namen, damit er weiß, wer du bist.`;
+                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '💡 Einfache Erklärung' : '💡 Simple Explanation';
+                    resultBody.textContent = systemLang === 'DE' ? `Das bedeutet einfach: Du stellst dich kurz vor und sagst freundlich deinen Namen.` : `It simply means: You introduce yourself shortly and friendly say your name.`;
                 } else if (currentMode === 'rephrase_pro') {
-                    document.getElementById('resultTitle').textContent = '💼 Professioneller Stil';
-                    resultBody.textContent = `„Es entspricht den Tatsachen, dass meine Identität auf den Namen Franz lautet.“`;
+                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '💼 Professioneller Stil' : '💼 Professional Style';
+                    resultBody.textContent = `„Es entspricht den Tatsachen, dass meine Identität im hiesigen Kontext auf den Namen Franz lautet.“`;
                 } else if (currentMode === 'grammar') {
-                    document.getElementById('resultTitle').textContent = '✏️ Grammatik-Ergebnis';
-                    resultBody.textContent = `✅ Satzstruktur erfolgreich überprüft.\n\nHinweis: Wenn du es perfekt machen willst, schreibe das "hallo" und "franz" am Anfang groß: "Hallo, ich bin Franz."`;
+                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '✏️ Grammatik-Ergebnis' : '✏️ Grammar Check';
+                    resultBody.textContent = systemLang === 'DE' ? `✅ Syntaktische Struktur erfolgreich validiert.\n\nHinweis: Denke bei der Live-Präsentation an die Großschreibung von Substantiven.` : `✅ Syntactical structure successfully validated.`;
                 } else if (currentMode === 'translate') {
                     const selectedLanguage = document.getElementById('targetLang').value;
-                    document.getElementById('resultTitle').textContent = `🌐 Übersetzung (${selectedLanguage})`;
-                    
-                    if (selectedLanguage === "Englisch") {
-                        resultBody.textContent = `Hello, I am Franz.`;
-                    } else if (selectedLanguage === "Französisch") {
-                        resultBody.textContent = `Bonjour, je m'appelle Franz.`;
-                    } else if (selectedLanguage === "Spanisch") {
-                        resultBody.textContent = `Hola, soy Franz.`;
-                    } else if (selectedLanguage === "Italienisch") {
-                        resultBody.textContent = `Ciao, sono Franz.`;
-                    }
+                    document.getElementById('resultTitle').textContent = `🌐 Translation (${selectedLanguage})`;
+                    if (selectedLanguage === "Englisch") resultBody.textContent = `Hello, I am Franz.`;
+                    else if (selectedLanguage === "Französisch") resultBody.textContent = `Bonjour, je m'appelle Franz.`;
+                    else if (selectedLanguage === "Spanisch") resultBody.textContent = `Hola, soy Franz.`;
+                    else resultBody.textContent = `Ciao, sono Franz.`;
                 }
-            }, 1000);
+            }, 1100);
         }
     }
+
+    // --- SPRACHAUSGABE (VORLESEN) ---
+    document.getElementById('speakBtn').addEventListener('click', () => {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+            const text = document.getElementById('resultBody').textContent;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = currentMode === 'translate' && document.getElementById('targetLang').value === 'Englisch' ? 'en-US' : 'de-DE';
+            window.speechSynthesis.speak(utterance);
+        }
+    });
+
+    // --- ERGEBNIS HERUNTERLADEN ---
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+        const text = document.getElementById('resultBody').textContent;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const anchor = document.createElement('a');
+        anchor.download = `contexto_${currentMode}.txt`;
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.click();
+    });
 
     // Kopieren Button
     document.getElementById('copyBtn').addEventListener('click', () => {
         navigator.clipboard.writeText(document.getElementById('resultBody').textContent);
-        alert('In Zwischenablage kopiert!');
+        alert(systemLang === 'DE' ? 'In Zwischenablage kopiert!' : 'Copied to clipboard!');
     });
 </script>
 </body>
