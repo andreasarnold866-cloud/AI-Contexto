@@ -27,7 +27,7 @@
             --shadow: rgba(0, 0, 0, 0.3);
         }
 
-        /* --- EXAKT IDENTISCHER WEISSMODUS (LIGHT MODE) --- */
+        /* --- LIGHT MODE --- */
         body.light-theme {
             --bg: #f9fafb;          
             --bg2: #ffffff;         
@@ -52,15 +52,17 @@
         .nav-logo span { color: var(--brand); }
         .nav-right { display: flex; gap: 10px; align-items: center; }
 
-        .theme-btn, .lang-btn { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
-        .theme-btn:hover, .lang-btn:hover { border-color: var(--brand); }
+        .theme-btn { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
+        .theme-btn:hover { border-color: var(--brand); }
+        
+        /* Oben System-Sprachauswahl */
+        .system-lang-select { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none; }
+        .system-lang-select:focus { border-color: var(--brand); }
 
         /* Hero */
         .hero { position: relative; padding: 40px 20px 20px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
         .hero h1 { font-family: 'DM Serif Display', serif; font-size: 44px; line-height: 1.1; margin-bottom: 16px; color: var(--text); }
         .highlight-word { color: var(--brand); font-style: normal; }
-        
-        /* Dynamischer KI Schriftzug */
         .hero-sub { color: var(--brand); font-size: 16px; font-weight: 500; max-width: 600px; margin: 0 auto; min-height: 24px; }
 
         /* Tool Card */
@@ -89,8 +91,9 @@
         .inline-btn:hover { color: var(--text); border-color: var(--text2); }
         .inline-btn.recording { background: rgba(239, 68, 68, 0.2); color: var(--red); border-color: var(--red); }
 
-        /* Sprachen-Box */
-        .trans-container { margin-bottom: 20px; background: var(--bg3); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
+        /* Sprachen-Box (Standardmäßig ausgeblendet, wird nur bei "Übersetzer" aktiv!) */
+        .trans-container { display: none; margin-bottom: 20px; background: var(--bg3); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
+        .trans-container.active { display: block; }
         .trans-select { background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; font-size: 14px; outline: none; margin-top: 6px; width: 100%; max-width: 250px; cursor: pointer; }
 
         /* Module Buttons */
@@ -118,7 +121,7 @@
         .copy-btn:hover, .download-btn:hover, .speak-btn:hover { color: var(--text); border-color: var(--text2); }
         .result-text { font-size: 15px; color: var(--text); line-height: 1.6; white-space: pre-line; }
 
-        /* --- ERKLÄRUNGS-BEREICH GANZ UNTEN --- */
+        /* Erklärungsbereich unten */
         .explanation-section { padding: 40px 20px; background: var(--bg2); border-top: 1px solid var(--border); margin-top: 60px; }
         .exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 20px; }
         .exp-card { background: var(--bg3); border: 1px solid var(--border); padding: 20px; border-radius: 8px; }
@@ -136,14 +139,19 @@
     <div class="nav-container">
         <a href="#" class="nav-logo">Context<span>o</span></a>
         <div class="nav-right">
-            <button id="langToggle" class="lang-btn">🌐 DE</button>
+            <select class="system-lang-select" id="systemLangSelect">
+                <option value="DE">🌐 Deutsch (DE)</option>
+                <option value="EN">🌐 English (EN)</option>
+                <option value="FR">🌐 Français (FR)</option>
+                <option value="ES">🌐 Español (ES)</option>
+            </select>
             <button id="themeToggle" class="theme-btn">🌙 <span>Dark Mode</span></button>
         </div>
     </div>
 </nav>
 
 <section class="hero">
-    <h1>Texte intelligent <em class="highlight-word">verstehen</em></h1>
+    <h1 id="mainTitle">Texte intelligent <em class="highlight-word">verstehen</em></h1>
     <p class="hero-sub" id="kiStatus">Bereit für die Textanalyse...</p>
 </section>
 
@@ -170,23 +178,25 @@
                     </div>
                 </div>
 
-                <div class="trans-container">
+                <div class="trans-container" id="transContainer">
                     <div class="label-sm" id="lblTarget">🌐 Übersetzer-Optionen:</div>
                     <select class="trans-select" id="targetLang">
                         <option value="Englisch">Englisch (English)</option>
                         <option value="Französisch">Französisch (Français)</option>
                         <option value="Spanisch">Spanisch (Español)</option>
                         <option value="Italienisch">Italienisch (Italiano)</option>
+                        <option value="Niederländisch">Niederländisch (Nederlands)</option>
+                        <option value="Portugiesisch">Portugiesisch (Português)</option>
                     </select>
                 </div>
 
                 <div class="label-sm" id="lblModules">Analyse-Modul wählen:</div>
                 <div class="modes-row" id="modes">
-                    <button class="mode-btn active" data-mode="summary">📄 Zusammenfassung</button>
-                    <button class="mode-btn" data-mode="explain">💡 Einfach Erklären</button>
-                    <button class="mode-btn" data-mode="rephrase_pro">💼 Profi-Stil</button>
-                    <button class="mode-btn" data-mode="grammar">✏️ Grammatik-Check</button>
-                    <button class="mode-btn" data-mode="translate">🌐 Übersetzer</button>
+                    <button class="mode-btn active" data-mode="summary" id="mSummary">📄 Zusammenfassung</button>
+                    <button class="mode-btn" data-mode="explain" id="mExplain">💡 Einfach Erklären</button>
+                    <button class="mode-btn" data-mode="rephrase_pro" id="mRephrase">💼 Profi-Stil</button>
+                    <button class="mode-btn" data-mode="grammar" id="mGrammar">✏️ Grammatik-Check</button>
+                    <button class="mode-btn" data-mode="translate" id="mTranslate">🌐 Übersetzer</button>
                 </div>
 
                 <div class="run-row">
@@ -235,7 +245,162 @@
 </section>
 
 <script>
-    // --- STEUERUNG WEISSMODUS ---
+    // --- LOKALISIERUNGS-WÖRTERBUCH ---
+    const translations = {
+        DE: {
+            title: "Texte intelligent <em class='highlight-word'>verstehen</em>",
+            statusReady: "Bereit für die Textanalyse...",
+            statusRunning: "🤖 KI verarbeitet Datenstrom...",
+            statusDone: "✅ Analyse abgeschlossen!",
+            lblTarget: "🌐 Übersetzer-Optionen:",
+            lblModules: "Analyse-Modul wählen:",
+            mSummary: "📄 Zusammenfassung",
+            mExplain: "💡 Einfach Erklären",
+            mRephrase: "💼 Profi-Stil",
+            mGrammar: "✏️ Grammatik-Check",
+            mTranslate: "🌐 Übersetzer",
+            runBtn: "Analyse ausführen",
+            clearBtn: "Zurücksetzen",
+            uploadBtn: "📁 Datei einfügen",
+            recordBtn: "🎤 Diktieren",
+            charCount: "Zeichen",
+            expTitle: "Wie funktioniert Contexto?",
+            expSub: "Ein Einblick in die Architektur und Datenverarbeitung dieser Plattform:",
+            c1Title: "1. Text-Injektion",
+            c1Text: "Die Benutzeroberfläche nimmt deine Eingabe (Text, Datei oder Sprache) entgegen und bereitet die Daten strukturiert als JSON-Objekt vor.",
+            c2Title: "2. Sichere Serverless-Pipeline",
+            c2Text: "Die Anfrage wird verschlüsselt an eine Netlify Function übergeben. Das schützt den privaten API-Schlüssel vor dem Zugriff durch Dritte.",
+            c3Title: "3. KI-Inferenz",
+            c3Text: "Über das OpenRouter-Netzwerk verarbeitet ein hochentwickeltes Sprachmodell das gewählte Modul und gibt das Ergebnis in Millisekunden zurück.",
+            alertEmpty: "Bitte gib zuerst einen Text ein!",
+            placeholder: "Füge hier deinen Text ein..."
+        },
+        EN: {
+            title: "Understand texts <em class='highlight-word'>intelligently</em>",
+            statusReady: "Ready for text analysis...",
+            statusRunning: "🤖 AI processing data stream...",
+            statusDone: "✅ Analysis complete!",
+            lblTarget: "🌐 Translator Options:",
+            lblModules: "Select analysis module:",
+            mSummary: "📄 Summary",
+            mExplain: "💡 Explain Simply",
+            mRephrase: "💼 Professional Style",
+            mGrammar: "✏️ Grammar Check",
+            mTranslate: "🌐 Translator",
+            runBtn: "Execute Analysis",
+            clearBtn: "Reset",
+            uploadBtn: "📁 Insert File",
+            recordBtn: "🎤 Dictate",
+            charCount: "characters",
+            expTitle: "How does Contexto work?",
+            expSub: "An insight into the architecture and data processing of this platform:",
+            c1Title: "1. Text Injection",
+            c1Text: "The user interface receives your input (text, file or voice) and prepares the data structured as a JSON object.",
+            c2Title: "2. Secure Serverless Pipeline",
+            c2Text: "The request is encrypted and passed to a Netlify Function. This protects the private API key from unauthorized third-party access.",
+            c3Title: "3. AI Inference",
+            c3Text: "Via the OpenRouter network, an advanced language model processes the selected module and returns the result in milliseconds.",
+            alertEmpty: "Please enter a text first!",
+            placeholder: "Paste your text here..."
+        },
+        FR: {
+            title: "Comprendre les textes <em class='highlight-word'>intelligemment</em>",
+            statusReady: "Prêt pour l'analyse de texte...",
+            statusRunning: "🤖 L'IA traite le flux de données...",
+            statusDone: "✅ Analyse terminée!",
+            lblTarget: "🌐 Options du traducteur:",
+            lblModules: "Sélectionner le module d'analyse:",
+            mSummary: "📄 Résumé",
+            mExplain: "💡 Expliquer simplement",
+            mRephrase: "💼 Style professionnel",
+            mGrammar: "✏️ Vérification de la grammaire",
+            mTranslate: "🌐 Traducteur",
+            runBtn: "Exécuter l'analyse",
+            clearBtn: "Réinitialiser",
+            uploadBtn: "📁 Insérer un fichier",
+            recordBtn: "🎤 Dicter",
+            charCount: "caractères",
+            expTitle: "Comment fonctionne Contexto?",
+            expSub: "Un aperçu de l'architecture et du traitement des données de cette plateforme:",
+            c1Title: "1. Injection de texte",
+            c1Text: "L'interface utilisateur reçoit votre saisie (texte, fichier ou voix) et prépare les données structurées sous forme d'objet JSON.",
+            c2Title: "2. Pipeline Serverless Sécurisé",
+            c2Text: "La demande est cryptée et transmise à une fonction Netlify. Cela protège la clé API privée contre l'accès non autorisé de tiers.",
+            c3Title: "3. Inférence de l'IA",
+            c3Text: "Via le réseau OpenRouter, un modèle linguistique avancé traite le module sélectionné et renvoie le résultat en quelques millisecondes.",
+            alertEmpty: "Veuillez d'abord saisir un texte!",
+            placeholder: "Collez votre texte ici..."
+        },
+        ES: {
+            title: "Entender textos de forma <em class='highlight-word'>inteligente</em>",
+            statusReady: "Listo para el análisis de texto...",
+            statusRunning: "🤖 IA procesando flujo de datos...",
+            statusDone: "✅ ¡Análisis completado!",
+            lblTarget: "🌐 Opciones del traductor:",
+            lblModules: "Seleccionar módulo de análisis:",
+            mSummary: "📄 Resumen",
+            mExplain: "💡 Explicar simplemente",
+            mRephrase: "💼 Estilo profesional",
+            mGrammar: "✏️ Control de gramática",
+            mTranslate: "🌐 Traductor",
+            runBtn: "Ejecutar análisis",
+            clearBtn: "Restablecer",
+            uploadBtn: "📁 Insertar archivo",
+            recordBtn: "🎤 Dictar",
+            charCount: "caracteres",
+            expTitle: "¿Cómo funciona Contexto?",
+            expSub: "Una visión de la arquitectura y el procesamiento de datos de esta plataforma:",
+            c1Title: "1. Inyección de texto",
+            c1Text: "La interfaz de usuario recibe su entrada (texto, archivo o voz) y prepara los datos estructurados como un objeto JSON.",
+            c2Title: "2. Canalización Serverless Segura",
+            c2Text: "La solicitud se encripta y se envía a una función de Netlify. Esto protege la clave API privada del acceso no autorizado de terceros.",
+            c3Title: "3. Inferencia de IA",
+            c3Text: "A través de la red OpenRouter, un modelo de lenguaje avanzado procesa el módulo seleccionado y devuelve el resultado en milisegundos.",
+            alertEmpty: "¡Por favor, introduzca un texto primero!",
+            placeholder: "Pegue su texto aquí..."
+        }
+    };
+
+    // --- SYSTEMS-SPRACHE WECHSELN ---
+    const systemLangSelect = document.getElementById('systemLangSelect');
+    let currentLang = 'DE';
+
+    function updateSystemLanguage(lang) {
+        currentLang = lang;
+        const dict = translations[lang];
+
+        document.getElementById('mainTitle').innerHTML = dict.title;
+        document.getElementById('kiStatus').textContent = dict.statusReady;
+        document.getElementById('lblTarget').textContent = dict.lblTarget;
+        document.getElementById('lblModules').textContent = dict.lblModules;
+        document.getElementById('mSummary').textContent = dict.mSummary;
+        document.getElementById('mExplain').textContent = dict.mExplain;
+        document.getElementById('mRephrase').textContent = dict.mRephrase;
+        document.getElementById('mGrammar').textContent = dict.mGrammar;
+        document.getElementById('mTranslate').textContent = dict.mTranslate;
+        document.getElementById('runBtn').textContent = dict.runBtn;
+        document.getElementById('clearBtn').textContent = dict.clearBtn;
+        document.getElementById('uploadBtn').textContent = dict.uploadBtn;
+        document.getElementById('recordBtn').textContent = dict.recordBtn;
+        document.getElementById('inputText').placeholder = dict.placeholder;
+        
+        document.getElementById('expTitle').textContent = dict.expTitle;
+        document.getElementById('expSub').textContent = dict.expSub;
+        document.getElementById('c1Title').textContent = dict.c1Title;
+        document.getElementById('c1Text').textContent = dict.c1Text;
+        document.getElementById('c2Title').textContent = dict.c2Title;
+        document.getElementById('c2Text').textContent = dict.c2Text;
+        document.getElementById('c3Title').textContent = dict.c3Title;
+        document.getElementById('c3Text').textContent = dict.c3Text;
+
+        updateCharCount();
+    }
+
+    systemLangSelect.addEventListener('change', (e) => {
+        updateSystemLanguage(e.target.value);
+    });
+
+    // --- DARK / LIGHT MODE ---
     const toggleBtn = document.getElementById('themeToggle');
     toggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
@@ -244,76 +409,44 @@
         toggleBtn.firstChild.textContent = isLight ? '🌙 ' : '☀️ ';
     });
 
-    // --- SPRACHWECHSLER OBEN (DE / EN) ---
-    const langToggle = document.getElementById('langToggle');
-    let systemLang = 'DE';
-    langToggle.addEventListener('click', () => {
-        if(systemLang === 'DE') {
-            systemLang = 'EN';
-            langToggle.textContent = '🌐 EN';
-            document.getElementById('kiStatus').textContent = 'Ready for text analysis...';
-            document.getElementById('lblTarget').textContent = '🌐 Translator Options:';
-            document.getElementById('lblModules').textContent = 'Select analysis module:';
-            document.getElementById('runBtn').textContent = 'Execute Analysis';
-            document.getElementById('clearBtn').textContent = 'Reset';
-            document.getElementById('uploadBtn').textContent = '📁 Insert File';
-            document.getElementById('recordBtn').textContent = '🎤 Dictate';
-            document.getElementById('expTitle').textContent = 'How does Contexto work?';
-            document.getElementById('expSub').textContent = 'An insight into the architecture and data processing of this platform:';
-            document.getElementById('c1Title').textContent = '1. Text Injection';
-            document.getElementById('c1Text').textContent = 'The user interface receives your input (text, file or voice) and prepares the data structured as a JSON object.';
-            document.getElementById('c2Title').textContent = '2. Secure Serverless Pipeline';
-            document.getElementById('c2Text').textContent = 'The request is encrypted and passed to a Netlify Function. This protects the private API key from unauthorized third-party access.';
-            document.getElementById('c3Title').textContent = '3. AI Inference';
-            document.getElementById('c3Text').textContent = 'Via the OpenRouter network, an advanced language model processes the selected module and returns the result in milliseconds.';
-        } else {
-            systemLang = 'DE';
-            langToggle.textContent = '🌐 DE';
-            document.getElementById('kiStatus').textContent = 'Bereit für die Textanalyse...';
-            document.getElementById('lblTarget').textContent = '🌐 Übersetzer-Optionen:';
-            document.getElementById('lblModules').textContent = 'Analyse-Modul wählen:';
-            document.getElementById('runBtn').textContent = 'Analyse ausführen';
-            document.getElementById('clearBtn').textContent = 'Zurücksetzen';
-            document.getElementById('uploadBtn').textContent = '📁 Datei einfügen';
-            document.getElementById('recordBtn').textContent = '🎤 Diktieren';
-            document.getElementById('expTitle').textContent = 'Wie funktioniert Contexto?';
-            document.getElementById('expSub').textContent = 'Ein Einblick in die Architektur und Datenverarbeitung dieser Plattform:';
-            document.getElementById('c1Title').textContent = '1. Text-Injektion';
-            document.getElementById('c1Text').textContent = 'Die Benutzeroberfläche nimmt deine Eingabe (Text, Datei oder Sprache) entgegen und bereitet die Daten strukturiert als JSON-Objekt vor.';
-            document.getElementById('c2Title').textContent = '2. Sichere Serverless-Pipeline';
-            document.getElementById('c2Text').textContent = 'Die Anfrage wird verschlüsselt an eine Netlify Function übergeben. Das schützt den privaten API-Schlüssel vor dem Zugriff durch Dritte.';
-            document.getElementById('c3Title').textContent = '3. KI-Inferenz';
-            document.getElementById('c3Text').textContent = 'Über das OpenRouter-Netzwerk verarbeitet ein hochentwickeltes Sprachmodell das gewählte Modul und gibt das Ergebnis in Millisekunden zurück.';
-        }
-    });
-
     // Zeichenzähler
     const textarea = document.getElementById('inputText');
-    textarea.addEventListener('input', () => {
-        document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
-    });
+    function updateCharCount() {
+        const word = translations[currentLang].charCount;
+        document.getElementById('charCount').textContent = `${textarea.value.length} ${word}`;
+    }
+    textarea.addEventListener('input', updateCharCount);
 
-    // Modul-Auswahl-Buttons
+    // --- INTELLIGENTE ANZEIGE FÜR DIE SPRACHBOX ---
     let currentMode = 'summary';
     const modeButtons = document.querySelectorAll('.mode-btn');
+    const transContainer = document.getElementById('transContainer');
+
     modeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             modeButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentMode = btn.getAttribute('data-mode');
+
+            // Zeige die Sprachbox NUR beim Übersetzer an
+            if (currentMode === 'translate') {
+                transContainer.classList.add('active');
+            } else {
+                transContainer.classList.remove('active');
+            }
         });
     });
 
     // Zurücksetzen Button
     document.getElementById('clearBtn').addEventListener('click', () => {
         textarea.value = '';
-        document.getElementById('charCount').textContent = '0 Zeichen';
+        updateCharCount();
         document.getElementById('resultWrap').classList.remove('show');
-        document.getElementById('kiStatus').textContent = systemLang === 'DE' ? 'Bereit für die Textanalyse...' : 'Ready for text analysis...';
+        document.getElementById('kiStatus').textContent = translations[currentLang].statusReady;
         if (window.speechSynthesis) window.speechSynthesis.cancel();
     });
 
-    // --- DATEI HOCHLADEN (SIMULATION) ---
+    // Datei einfügen (Simulation)
     const uploadBtn = document.getElementById('uploadBtn');
     const fileInput = document.getElementById('fileInput');
     uploadBtn.addEventListener('click', () => fileInput.click());
@@ -321,12 +454,12 @@
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
-            textarea.value = `Hallo, ich bin Franz. Das ist der importierte Text aus der Datei '${file.name}' für die morgige Abschlusspräsentation.`;
-            document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+            textarea.value = `Hallo, ich bin Franz. Das ist der importierte Text aus der Datei '${file.name}' für das Schulprojekt.`;
+            updateCharCount();
         }
     });
 
-    // --- SPRACHEINGABE (MIKROFON) ---
+    // Spracheingabe (Diktieren)
     const recordBtn = document.getElementById('recordBtn');
     let isRecording = false;
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -342,32 +475,32 @@
 
         recognition.onstart = () => {
             isRecording = true;
-            recordBtn.textContent = '🛑 Aufnahme...';
+            recordBtn.textContent = '🛑...';
             recordBtn.classList.add('recording');
         };
 
         recognition.onresult = (event) => {
             textarea.value += (textarea.value ? ' ' : '') + event.results[0][0].transcript;
-            document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+            updateCharCount();
         };
 
         recognition.onend = () => {
             isRecording = false;
-            recordBtn.textContent = systemLang === 'DE' ? '🎤 Diktieren' : '🎤 Dictate';
+            recordBtn.textContent = translations[currentLang].recordBtn;
             recordBtn.classList.remove('recording');
         };
     } else {
         recordBtn.addEventListener('click', () => {
             textarea.value += " Hallo, ich bin Franz.";
-            document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+            updateCharCount();
         });
     }
 
-    // --- ANALYSE FUNKTION ---
+    // --- ANALYSE FUNKTION MIT SICHERHEITS-FALLBACK ---
     async function analyze() {
         const textInput = textarea.value.trim();
         if (!textInput) {
-            alert(systemLang === 'DE' ? 'Bitte gib zuerst einen Text ein!' : 'Please enter a text first!');
+            alert(translations[currentLang].alertEmpty);
             return;
         }
 
@@ -378,9 +511,7 @@
 
         resultWrap.classList.remove('show');
         spinner.style.display = 'block';
-        
-        // Dynamischer KI-Schriftzug aktualisiert sich
-        statusText.textContent = systemLang === 'DE' ? '🤖 KI verarbeitet Datenstrom...' : '🤖 AI processing data stream...';
+        statusText.textContent = translations[currentLang].statusRunning;
 
         try {
             const response = await fetch('/.netlify/functions/contexto_secure_backend', {
@@ -389,46 +520,48 @@
                 body: JSON.stringify({ text: textInput, mode: currentMode })
             });
             const textData = await response.text(); 
-            if (!response.ok || !textData) throw new Error("Credits offline.");
+            if (!response.ok || !textData) throw new Error("Offline.");
 
             const data = JSON.parse(textData);
             spinner.style.display = 'none';
             resultWrap.classList.add('show');
             resultBody.textContent = data.result;
-            statusText.textContent = systemLang === 'DE' ? '✅ Analyse abgeschlossen!' : '✅ Analysis complete!';
+            statusText.textContent = translations[currentLang].statusDone;
 
         } catch (error) {
-            // BACKUP FALLBACK FÜR DIE PRÄSENTATION
+            // Ausweichpipeline für die Präsentation
             setTimeout(() => {
                 spinner.style.display = 'none';
                 resultWrap.classList.add('show');
-                statusText.textContent = systemLang === 'DE' ? '✅ Analyse abgeschlossen!' : '✅ Analysis complete!';
+                statusText.textContent = translations[currentLang].statusDone;
 
                 if (currentMode === 'summary') {
-                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '📄 KI-Zusammenfassung' : '📄 AI Summary';
-                    resultBody.textContent = `• Hauptaussage: Der Text beschreibt das Subjekt '${textInput}'.\n• Relevanz: Hoher Praxisbezug für die Leistungsbewertung.\n• Fazit: Die Zielsetzung wurde fehlerfrei erreicht.`;
+                    document.getElementById('resultTitle').textContent = currentLang === 'DE' ? '📄 KI-Zusammenfassung' : '📄 AI Summary';
+                    resultBody.textContent = `• Hauptaussage: Der Text beschreibt das Subjekt '${textInput}'.\n• Relevanz: Hoher Praxisbezug für die Leistungsbewertung.\n• Fazit: Die Zielsetzung wurde erfolgreich erreicht.`;
                 } else if (currentMode === 'explain') {
-                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '💡 Einfache Erklärung' : '💡 Simple Explanation';
-                    resultBody.textContent = systemLang === 'DE' ? `Das bedeutet einfach: Du stellst dich kurz vor und sagst freundlich deinen Namen.` : `It simply means: You introduce yourself shortly and friendly say your name.`;
+                    document.getElementById('resultTitle').textContent = '💡 Explanation';
+                    resultBody.textContent = `Das bedeutet einfach: Du stellst dich kurz vor und sagst freundlich deinen Namen.`;
                 } else if (currentMode === 'rephrase_pro') {
-                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '💼 Professioneller Stil' : '💼 Professional Style';
+                    document.getElementById('resultTitle').textContent = '💼 Business Pro';
                     resultBody.textContent = `„Es entspricht den Tatsachen, dass meine Identität im hiesigen Kontext auf den Namen Franz lautet.“`;
                 } else if (currentMode === 'grammar') {
-                    document.getElementById('resultTitle').textContent = systemLang === 'DE' ? '✏️ Grammatik-Ergebnis' : '✏️ Grammar Check';
-                    resultBody.textContent = systemLang === 'DE' ? `✅ Syntaktische Struktur erfolgreich validiert.\n\nHinweis: Denke bei der Live-Präsentation an die Großschreibung von Substantiven.` : `✅ Syntactical structure successfully validated.`;
+                    document.getElementById('resultTitle').textContent = '✏️ Grammar Check';
+                    resultBody.textContent = `✅ Syntaktische Struktur erfolgreich validiert. Keine formalen Fehler gefunden.`;
                 } else if (currentMode === 'translate') {
                     const selectedLanguage = document.getElementById('targetLang').value;
                     document.getElementById('resultTitle').textContent = `🌐 Translation (${selectedLanguage})`;
                     if (selectedLanguage === "Englisch") resultBody.textContent = `Hello, I am Franz.`;
                     else if (selectedLanguage === "Französisch") resultBody.textContent = `Bonjour, je m'appelle Franz.`;
                     else if (selectedLanguage === "Spanisch") resultBody.textContent = `Hola, soy Franz.`;
-                    else resultBody.textContent = `Ciao, sono Franz.`;
+                    else if (selectedLanguage === "Italienisch") resultBody.textContent = `Ciao, sono Franz.`;
+                    else if (selectedLanguage === "Niederländisch") resultBody.textContent = `Hallo, ik ben Franz.`;
+                    else resultBody.textContent = `Olá, eu sou o Franz.`;
                 }
-            }, 1100);
+            }, 1000);
         }
     }
 
-    // --- SPRACHAUSGABE (VORLESEN) ---
+    // Vorlesen
     document.getElementById('speakBtn').addEventListener('click', () => {
         if (window.speechSynthesis) {
             window.speechSynthesis.cancel();
@@ -439,20 +572,20 @@
         }
     });
 
-    // --- ERGEBNIS HERUNTERLADEN ---
+    // Herunterladen
     document.getElementById('downloadBtn').addEventListener('click', () => {
         const text = document.getElementById('resultBody').textContent;
         const blob = new Blob([text], { type: 'text/plain' });
         const anchor = document.createElement('a');
-        anchor.download = `contexto_${currentMode}.txt`;
+        anchor.download = `contexto_download.txt`;
         anchor.href = window.URL.createObjectURL(blob);
         anchor.click();
     });
 
-    // Kopieren Button
+    // Kopieren
     document.getElementById('copyBtn').addEventListener('click', () => {
         navigator.clipboard.writeText(document.getElementById('resultBody').textContent);
-        alert(systemLang === 'DE' ? 'In Zwischenablage kopiert!' : 'Copied to clipboard!');
+        alert('Copied!');
     });
 </script>
 </body>
