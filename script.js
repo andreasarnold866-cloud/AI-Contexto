@@ -7,6 +7,8 @@ const EXAMPLES = {
 const TITLES = { 
     summary: 'Zusammenfassung', 
     explain: 'Einfache Erklärung', 
+    rephrase_pro: 'Umschreiben: Professioneller Stil',
+    rephrase_points: 'Umschreiben: In prägnante Stichpunkte',
     grammar: 'Grammatik- & Stilprüfung', 
     translate: 'KI-Übersetzung',
     stats: 'Berechnete Text-Metriken' 
@@ -22,6 +24,29 @@ const resultBody = document.getElementById('resultBody');
 const resultTitle = document.getElementById('resultTitle');
 const resultTag = document.getElementById('resultTag');
 const translatorOptions = document.getElementById('translatorOptions');
+const fileInput = document.getElementById('fileInput');
+const loadingIndicator = document.getElementById('loadingIndicator');
+const themeToggle = document.getElementById('themeToggle');
+
+// FEATURE 1: Dark Mode Logik via Class-Toggle am Body
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    themeToggle.querySelector('span').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    themeToggle.firstChild.textContent = isDark ? '☀️ ' : '🌙 ';
+});
+
+// FEATURE 2: Lokalen Datei-Upload verarbeiten (.txt einlesen)
+fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+        textarea.value = evt.target.result;
+        charCount.textContent = evt.target.result.length + ' Zeichen';
+    };
+    reader.readAsText(file);
+});
 
 textarea.addEventListener('input', () => { 
     charCount.textContent = textarea.value.trim().length + ' Zeichen'; 
@@ -54,10 +79,12 @@ document.getElementById('modes').addEventListener('click', e => {
 function clearAll() {
     textarea.value = ''; 
     charCount.textContent = '0 Zeichen';
+    fileInput.value = '';
     resultWrap.classList.remove('show'); 
     resultBody.innerHTML = ''; 
     resultTag.style.display = 'none';
     translatorOptions.style.display = 'none';
+    loadingIndicator.style.display = 'none';
     document.querySelectorAll('.mode-btn').forEach(x => x.classList.remove('active'));
     document.querySelector('[data-mode="summary"]').classList.add('active');
     activeMode = 'summary';
@@ -94,29 +121,32 @@ async function analyze() {
     resultTag.style.display = 'none';
     resultTitle.textContent = TITLES[activeMode];
     resultWrap.classList.add('show');
-    resultBody.innerHTML = '<div class="result-text">Verarbeite Daten... Bitte warten...</div>';
+    
+    // FEATURE 4: Schalte Ladeindikator ein und leere altes Ergebnis
+    loadingIndicator.style.display = 'flex';
+    resultBody.innerHTML = '';
     
     // 1. LOKALE METRIKEN
     if(activeMode === 'stats') {
+        loadingIndicator.style.display = 'none';
         resultBody.innerHTML = getLocalStats(text);
         runBtn.disabled = false;
         return;
     }
 
-    // 2. GRAMMATIKPRÜFUNG (LanguageTool API)
+    // 2. GRAMMATIKPRÜFUNG
     if(activeMode === 'grammar') {
         try {
             const lang = document.getElementById('langSelect')?.value || 'de-DE';
-            
             const response = await fetch("https://api.languagetoolplus.com/v2/check", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams({ text: text, language: lang })
             });
-            
             const data = await response.json();
             const matches = data.matches || [];
             
+            loadingIndicator.style.display = 'none';
             resultTag.style.display = 'inline-block';
             resultTag.textContent = matches.length === 0 ? 'SYNTAX OK' : matches.length + ' HINWEISE';
             resultTag.className = 'result-tag ' + (matches.length === 0 ? 'tag-ok' : 'tag-warn');
@@ -142,36 +172,42 @@ async function analyze() {
                 resultBody.innerHTML = html;
             }
         } catch(e) {
-            resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Verbindung zur Grammatikprüfung.</div>`;
+            loadingIndicator.style.display = 'none';
+            resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Grammatikprüfung.</div>`;
         }
         runBtn.disabled = false;
         return;
     }
 
-    // 3. NETLIFY-FUNCTION FÜR KI-AUFGABEN (Summary, Explain, Translate)
+    // 3. NETLIFY-FUNCTION SENDER (Summary, Explain, Rephrase & Translate)
     try {
-        let modeToSend = activeMode;
+        let modeToSend = "summary"; // Nutze immer den Summary Kanal deiner chat.js
         let textToSend = text;
 
-        if (activeMode === 'translate') {
+        if (activeMode === 'explain') {
+            modeToSend = "explain"; // Reiner Nativ-Modus aus deiner chat.js
+        } 
+        // FEATURE 3: Unsichtbare Systembefehl-Tricks für deine Umschreiber
+        else if (activeMode === 'rephrase_pro') {
+            textToSend = `Schreibe den folgenden Text komplett um. Nutze einen hochprofessionellen, akademischen und geschäftsmäßig korrekten Stil. Optimiere den Satzbau:\n\nTEXT:\n${text}`;
+        } 
+        else if (activeMode === 'rephrase_points') {
+            textToSend = `Wandle den gesamten Informationsgehalt des folgenden Textes in eine strukturierte, leicht lesbare Liste aus prägnanten Stichpunkten (mit Aufzählungszeichen) um:\n\nTEXT:\n${text}`;
+        } 
+        else if (activeMode === 'translate') {
             const targetLang = document.getElementById('targetLangSelect').value;
-            modeToSend = "summary"; 
-            textToSend = `Übersetze den folgenden Text präzise in die Sprache: ${targetLang}. Gib NUR die Übersetzung aus, keinerlei Einleitungssätze!\n\nTEXT:\n${text}`;
+            textToSend = `Übersetze den folgenden Text präzise in die Sprache: ${targetLang}. Gib ausnahmslos NUR die fertige Übersetzung aus, keine Einleitungssätze!:\n\nTEXT:\n${text}`;
         }
 
         const response = await fetch("/.netlify/functions/chat", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                text: textToSend,
-                mode: modeToSend
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: textToSend, mode: modeToSend })
         });
 
         const data = await response.json();
         
+        loadingIndicator.style.display = 'none';
         if (data.result) {
             resultBody.innerHTML = `<div class="result-text">${data.result.replace(/\n/g, '<br>')}</div>`;
         } else {
@@ -179,6 +215,7 @@ async function analyze() {
         }
 
     } catch (error) {
+        loadingIndicator.style.display = 'none';
         resultBody.innerHTML = `<div class="result-text" style="color:var(--red)">Fehler bei der Verbindung zur Netlify-Function. Überprüfe den API-Key im Dashboard.</div>`;
     }
     runBtn.disabled = false;
