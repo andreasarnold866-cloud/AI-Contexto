@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
     
     <style>
-        /* --- DESIGN-SYSTEM & VARIABLEN --- */
+        /* --- DESIGN-SYSTEM & VARIABLEN (DARK MODE STANDARD) --- */
         :root {
             --bg: #0b0b0f;
             --bg2: #121218;
@@ -18,7 +18,7 @@
             --text2: #9ca3af;
             --text3: #6b7280;
             --border: #22222e;
-            --brand: #6366f1;       /* Originales Violett */
+            --brand: #6366f1;       /* Dein lila Branding */
             --brand-hover: #4f46e5;
             --brand-light: rgba(99, 102, 241, 0.15);
             --green: #10b981;
@@ -27,20 +27,22 @@
             --shadow: rgba(0, 0, 0, 0.3);
         }
 
+        /* --- EXAKT GLEICHES DESIGN IN WEISS (LIGHT MODE) --- */
         body.light-theme {
-            --bg: #f9fafb;          
-            --bg2: #ffffff;         
-            --bg3: #f3f4f6;         
-            --text: #111827;        
-            --text2: #4b5563;       
+            --bg: #f9fafb;          /* Heller Hintergrund */
+            --bg2: #ffffff;         /* Weiße Container-Boxen */
+            --bg3: #f3f4f6;         /* Hellgraue Inputs / Topbar */
+            --text: #111827;        /* Dunkler Haupttext */
+            --text2: #4b5563;       /* Dunkelgrauer Sekundärtext */
             --text3: #9ca3af;
-            --border: #e5e7eb;      
-            --brand: #4f46e5;       
-            --brand-hover: #3730a3;
-            --brand-light: rgba(79, 70, 229, 0.1);
+            --border: #e5e7eb;      /* Helle Trennlinien */
+            --brand: #6366f1;       /* Lila bleibt exakt identisch */
+            --brand-hover: #4f46e5;
+            --brand-light: rgba(99, 102, 241, 0.15);
             --shadow: rgba(0, 0, 0, 0.05);
         }
 
+        /* Globale Basis-Stile */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'DM Sans', sans-serif; transition: background-color 0.3s, border-color 0.3s, color 0.3s; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.5; }
 
@@ -53,34 +55,23 @@
         .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500; }
         .nav-links a:hover { color: var(--brand); }
 
-        .theme-btn, .lang-select { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
-        .theme-btn:hover, .lang-select:hover { border-color: var(--brand); }
+        .theme-btn { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
+        .theme-btn:hover { border-color: var(--brand); }
 
         /* Hero */
-        .hero { position: relative; padding: 100px 20px 60px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .hero { position: relative; padding: 80px 20px 40px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
         .hero-glow { position: absolute; width: 300px; height: 300px; background: rgba(99,102,241,0.1); filter: blur(80px); top: 20px; left: 50%; transform: translateX(-50%); z-index: -1; }
         .hero-eyebrow { font-size: 13px; color: var(--text2); margin-bottom: 16px; display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 2px 5px var(--shadow); }
         .eyebrow-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
         .hero h1 { font-family: 'DM Serif Display', serif; font-size: 48px; line-height: 1.1; margin-bottom: 20px; color: var(--text); }
         .highlight-word { color: var(--brand); font-style: normal; }
-        .hero-sub { color: var(--text2); font-size: 16px; max-width: 600px; margin: 0 auto 30px auto; }
-        .hero-cta { background: var(--brand); color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-block; box-shadow: 0 4px 12px var(--brand-light); }
-        .hero-cta:hover { background: var(--brand-hover); }
-
-        /* Main Grid für Tool und History */
-        .main-layout { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
-        @media (min-width: 850px) { .main-layout { grid-template-columns: 3fr 1fr; } }
+        .hero-sub { color: var(--text2); font-size: 16px; max-width: 600px; margin: 0 auto 20px auto; }
 
         /* Tool Card */
-        .tool-section { padding: 40px 20px; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        .tool-header { text-align: center; margin-bottom: 30px; }
-        .tool-header h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 8px; color: var(--text); }
-        .tool-header p { color: var(--text2); font-size: 14px; }
-
+        .tool-section { padding: 20px 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
         .tool-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: 0 20px 40px var(--shadow); }
-        .tool-topbar { background: var(--bg3); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-        .tb-left { display: flex; align-items: center; }
+        .tool-topbar { background: var(--bg3); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
         .tb-dots { display: flex; gap: 6px; margin-right: 12px; }
         .tb-dot { width: 10px; height: 10px; border-radius: 50%; }
         .tb-dot.r { background: #ff5f56; } .tb-dot.y { background: #ffbd2e; } .tb-dot.g { background: #27c93f; }
@@ -88,23 +79,11 @@
 
         .tool-body { padding: 24px; }
 
-        /* Inputs & Audiobar */
+        /* Inputs */
         .input-wrap { position: relative; margin-bottom: 16px; }
-        textarea.main { width: 100%; height: 180px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; padding-bottom: 45px; color: var(--text); font-size: 15px; resize: none; outline: none; }
+        textarea.main { width: 100%; height: 160px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; color: var(--text); font-size: 15px; resize: none; outline: none; }
         textarea.main:focus { border-color: var(--brand); }
-        .input-toolbar { position: absolute; bottom: 10px; left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
-        .input-toolbar button, .char-badge { pointer-events: auto; }
-        .char-badge { font-size: 11px; color: var(--text2); background: var(--bg2); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
-        
-        /* 3. Audio Input Button */
-        .audio-input-btn { background: var(--bg2); border: 1px solid var(--border); color: var(--text2); padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .audio-input-btn:hover { color: var(--brand); border-color: var(--brand); }
-
-        /* 4. Erweiterte Upload Zone (TXT, PDF, DOCX, Multi) */
-        .upload-zone { background: var(--bg3); border: 1px dashed var(--border); border-radius: 8px; padding: 14px; margin-bottom: 16px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .upload-zone input[type="file"] { display: none; }
-        .upload-text-main { font-size: 13px; color: var(--text2); font-weight: 500; }
-        .upload-zone:hover { border-color: var(--brand); background: var(--bg2); }
+        .char-badge { position: absolute; bottom: 12px; right: 12px; font-size: 11px; color: var(--text2); background: var(--bg2); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
 
         /* Module Buttons */
         .label-sm { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 10px; font-weight: bold; }
@@ -122,39 +101,15 @@
 
         .ki-warning-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b45309; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); padding: 10px; border-radius: 6px; margin-bottom: 24px; }
 
-        /* Result Box mit Export & Vorlesen */
+        /* Result Box */
         .result-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: none; box-shadow: inset 0 2px 4px var(--shadow); }
         .result-wrap.show { display: block; }
-        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
         .result-header h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
-        .result-actions { display: flex; gap: 8px; }
-        
-        /* 2. Export & Audio Buttons */
-        .action-icon-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .action-icon-btn:hover { color: var(--text); border-color: var(--brand); }
+        .copy-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .result-text { font-size: 15px; color: var(--text); line-height: 1.6; white-space: pre-line; }
 
-        /* 1. History Sidebar Card */
-        .history-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; box-shadow: 0 10px 25px var(--shadow); height: max-content; }
-        .history-title { font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-        .history-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .history-item { padding: 10px; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text2); }
-        .history-item:hover { border-color: var(--brand); color: var(--text); }
-        .history-empty { font-size: 12px; color: var(--text3); text-align: center; padding: 10px 0; }
-
-        /* Pipeline Sektion */
-        .how-section { padding: 60px 20px; background: var(--bg2); border-top: 1px solid var(--border); }
-        .section-label { font-size: 12px; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: bold; }
-        .how-section h2 { text-align: center; font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 40px; color: var(--text); }
-        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .step { background: var(--bg3); border: 1px solid var(--border); padding: 24px; border-radius: var(--r); position: relative; }
-        .step-num { position: absolute; top: 16px; right: 16px; font-size: 12px; color: var(--text2); background: var(--bg2); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border); }
-        .step-icon { font-size: 24px; margin-bottom: 12px; }
-        .step h3 { font-size: 16px; margin-bottom: 8px; color: #fff; }
-        body.light-theme .step h3 { color: var(--text); }
-        .step p { font-size: 13px; color: var(--text2); }
-
-        footer { text-align: center; padding: 30px; font-size: 12px; color: var(--text3); border-top: 1px solid var(--border); background: var(--bg); }
-        .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.6s linear infinite; }
+        .spinner { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--brand); border-radius: 50%; animation: spin 0.6s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
@@ -163,206 +118,137 @@
 <nav>
     <div class="nav-container">
         <a href="#" class="nav-logo">Context<span>o</span></a>
-        <ul class="nav-links">
-            <li><a href="#tool" data-i18n="nav_tool">Analyse-Tool</a></li>
-            <li><a href="#wie" data-i18n="nav_how">Funktionsweise</a></li>
-        </ul>
-        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
-            <select class="lang-select" id="langSelect">
-                <option value="de-DE">Deutsch (DE)</option>
-                <option value="en-US">English (US)</option>
-                <option value="fr-FR">Français (FR)</option>
-                <option value="es-ES">Español (ES)</option>
-            </select>
-            <button id="themeToggle" class="theme-btn">🌙 <span data-i18n="btn_dark">Dark Mode</span></button>
+        <div class="nav-right">
+            <button id="themeToggle" class="theme-btn">🌙 <span>Dark Mode</span></button>
         </div>
     </div>
 </nav>
 
 <section class="hero">
     <div class="hero-glow"></div>
-    <p class="hero-eyebrow"><span class="eyebrow-dot"></span> Powered by Netlify Functions & OpenRouter</p>
-    <h1 data-i18n="hero_title">Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten</h1>
-    <p class="hero-sub" data-i18n="hero_sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt Sprachen, schreibt Texte professionell um und analysiert Dokumente.</p>
-    <a href="#tool" class="hero-cta" data-i18n="hero_cta">Jetzt testen</a>
+    <p class="hero-eyebrow"><span class="eyebrow-dot"></span> Powered by Netlify Functions</p>
+    <h1>Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten</h1>
+    <p class="hero-sub">Contexto filtert Kernpunkte, korrigiert Grammatik und optimiert deine Texte per Knopfdruck.</p>
 </section>
 
 <section class="tool-section" id="tool">
     <div class="container">
-        <div class="tool-header">
-            <h2 data-i18n="tool_title">Die Analyse- & Übersetzungsplattform</h2>
-            <p data-i18n="tool_sub">Füge einen Text ein, lade Dokumente hoch oder nutze die Diktierfunktion</p>
-        </div>
-        
-        <div class="main-layout">
-            
-            <div class="tool-card">
-                <div class="tool-topbar">
-                    <div class="tb-left">
-                        <div class="tb-dots"><div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div></div>
-                        <span class="tb-title">contexto_secure_backend.js</span>
-                    </div>
+        <div class="tool-card">
+            <div class="tool-topbar">
+                <div class="tb-dots"><div class="tb-dot r"></div><div class="tb-dot y"></div><div class="tb-dot g"></div></div>
+                <span class="tb-title">contexto_secure_backend.js</span>
+            </div>
+
+            <div class="tool-body">
+                <div class="input-wrap">
+                    <textarea class="main" id="inputText" placeholder="Füge hier deinen Text ein..."></textarea>
+                    <span class="char-badge" id="charCount">0 Zeichen</span>
                 </div>
 
-                <div class="tool-body">
-                    <div class="upload-zone" id="uploadZone">
-                        <input type="file" id="fileInput" accept=".txt,.pdf,.docx" multiple>
-                        <span class="upload-icon">📂</span>
-                        <span class="upload-text-main" id="uploadText">Klicke hier oder ziehe Dokumente (.txt, .pdf, .docx) hinein</span>
-                    </div>
-
-                    <div class="input-wrap">
-                        <textarea class="main" id="inputText" placeholder="Schreibe oder füge hier deinen Text ein..."></textarea>
-                        <div class="input-toolbar">
-                            <button type="button" class="audio-input-btn" id="voiceBtn">🎤 Diktieren starten</button>
-                            <span class="char-badge" id="charCount">0 Zeichen</span>
-                        </div>
-                    </div>
-
-                    <div id="translatorOptions" style="display: none; margin-bottom: 1.5rem; background: var(--bg3); padding: 12px; border-radius: var(--r); border: 1px solid var(--border);">
-                        <span class="label-sm" style="margin-bottom: 6px; display: block;" data-i18n="trans_label">Ziel-Sprache für Übersetzung:</span>
-                        <select id="targetLangSelect" style="background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px;">
-                            <option value="Englisch">English</option>
-                            <option value="Deutsch">Deutsch</option>
-                            <option value="Französisch">Français</option>
-                            <option value="Spanisch">Español</option>
-                            <option value="Italienisch">Italiano</option>
-                        </select>
-                    </div>
-
-                    <div class="label-sm" data-i18n="modules_label">ANALYSE-MODUL:</div>
-                    <div class="modes-row" id="modes">
-                        <button class="mode-btn active" data-mode="summary" data-i18n="mod_summary">📄 Zusammenfassung</button>
-                        <button class="mode-btn" data-mode="explain" data-i18n="mod_explain">💡 Einfach Erklären</button>
-                        <button class="mode-btn" data-mode="rephrase_pro" data-i18n="mod_pro">💼 Profi-Stil umschreiben</button>
-                        <button class="mode-btn" data-mode="rephrase_points" data-i18n="mod_points">📌 In Stichpunkte wandeln</button>
-                        <button class="mode-btn" data-mode="grammar" data-i18n="mod_grammar">✏️ Grammatik-Check</button>
-                        <button class="mode-btn" data-mode="translate" data-i18n="mod_translate">🌐 Übersetzer</button>
-                        <button class="mode-btn" data-mode="stats" data-i18n="mod_stats">📊 Text-Metriken</button>
-                    </div>
-
-                    <div class="run-row">
-                        <button class="run-btn" id="runBtn" onclick="analyze()" data-i18n="btn_run">Analyse ausführen</button>
-                        <button class="clear-btn" onclick="clearAll()" data-i18n="btn_clear">Zurücksetzen</button>
-                    </div>
-
-                    <div class="ki-warning-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                        <span data-i18n="ki_warning">KI kann Fehler machen. Überprüfe Resultate sorgfältig.</span>
-                    </div>
-
-                    <div class="result-wrap" id="resultWrap">
-                        <div class="result-header">
-                            <h3 id="resultTitle" data-i18n="res_title">Ergebnis</h3>
-                            <div class="result-actions">
-                                <button class="action-icon-btn" id="speakBtn">🔊 Vorlesen</button>
-                                <button class="action-icon-btn" id="exportBtn">📥 Als PDF/Word exportieren</button>
-                                <button class="copy-btn" id="copyBtn" onclick="copyResult()">📋 <span data-i18n="btn_copy">Kopieren</span></button>
-                            </div>
-                        </div>
-                        <div id="loadingIndicator" style="display: none; flex-direction: column; align-items: center; padding: 20px 10px; gap: 12px;">
-                            <div class="spinner"></div>
-                            <div style="font-size: 14px; color: var(--text2);" data-i18n="loading_text">KI analysiert Daten...</div>
-                        </div>
-                        <div id="resultBody" class="result-text"></div>
-                    </div>
+                <div class="label-sm">ANALYSE-MODUL WÄHLEN:</div>
+                <div class="modes-row" id="modes">
+                    <button class="mode-btn active" data-mode="summary">📄 Zusammenfassung</button>
+                    <button class="mode-btn" data-mode="explain">💡 Einfach Erklären</button>
+                    <button class="mode-btn" data-mode="rephrase_pro">💼 Profi-Stil umschreiben</button>
+                    <button class="mode-btn" data-mode="grammar">✏️ Grammatik-Check</button>
                 </div>
-            </div>
 
-            <div class="history-card">
-                <div class="history-title">🕒 Letzte Analysen</div>
-                <ul class="history-list" id="historyList">
-                    <li class="history-empty">Noch keine Analysen durchgeführt</li>
-                </ul>
-            </div>
+                <div class="run-row">
+                    <button class="run-btn" id="runBtn" onclick="analyze()">Analyse ausführen</button>
+                    <button class="clear-btn" id="clearBtn">Zurücksetzen</button>
+                </div>
 
-        </div>
-    </div>
-</section>
+                <div class="spinner" id="loadingSpinner"></div>
 
-<section class="how-section" id="wie">
-    <div class="container">
-        <p class="section-label" style="text-align:center" data-i18n="pipe_label">Sichere Architektur</p>
-        <h2 data-i18n="pipe_title">Pipeline der Datenverarbeitung</h2>
-        
-        <div class="steps">
-            <div class="step">
-                <span class="step-num">1</span>
-                <div class="step-icon">📋</div>
-                <h3>Frontend Input</h3>
-                <p>Der Benutzer fügt den Text ein, diktiert per Audio oder lädt mehrere Dokumente hoch.</p>
-            </div>
-            <div class="step">
-                <span class="step-num">2</span>
-                <div class="step-icon">🔒</div>
-                <h3>Netlify Function</h3>
-                <p>Die Daten wandern ans Backend. Der API-Key ist auf dem Server verborgen.</p>
-            </div>
-            <div class="step">
-                <span class="step-num">3</span>
-                <div class="step-icon">🤖</div>
-                <h3>Inferenz</h3>
-                <p>Das Sprachmodell verarbeitet den Text über OpenRouter.</p>
-            </div>
-            <div class="step">
-                <span class="step-num">4</span>
-                <div class="step-icon">✨</div>
-                <h3>DOM Injection</h3>
-                <p>Das fertige Ergebnis wird angezeigt, kann vorgelesen, exportiert oder lokal gespeichert werden.</p>
+                <div class="result-wrap" id="resultWrap">
+                    <div class="result-header">
+                        <h3 id="resultTitle">Ergebnis</h3>
+                        <button class="copy-btn" id="copyBtn">📋 Kopieren</button>
+                    </div>
+                    <div id="resultBody" class="result-text"></div>
+                </div>
             </div>
         </div>
     </div>
 </section>
-
-<footer>
-    <p>Contexto · Projektarbeit Informatik · Sicher gehostet via Netlify</p>
-</footer>
-
-<script src="script.js"></script>
 
 <script>
-    // 1. Reparierter Weißmodus Switcher
+    // --- STEUERUNG FÜR DEN WEISSMODUS ---
     const toggleBtn = document.getElementById('themeToggle');
     toggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
         const isLight = document.body.classList.contains('light-theme');
-        toggleBtn.querySelector('span').textContent = isLight ? 'Dark Mode' : 'Light Mode';
-        toggleBtn.firstChild.textContent = isLight ? '🌙 ' : '☀️ ';
+        toggleBtn.querySelector('span').textContent = isLight ? 'Light Mode' : 'Dark Mode';
+        toggleBtn.firstChild.textContent = isLight ? '☀️ ' : '🌙 ';
     });
 
-    // 2. Demo-Interaktion für Multi-Dateiupload (Feature 4)
-    const fileInput = document.getElementById('fileInput');
-    const uploadText = document.getElementById('uploadText');
-    fileInput.addEventListener('change', (e) => {
-        if(e.target.files.length > 0) {
-            uploadText.textContent = `📂 ${e.target.files.length} Dokumente erfolgreich geladen!`;
-            uploadText.style.color = 'var(--green)';
+    // Zeichenzähler
+    const textarea = document.getElementById('inputText');
+    textarea.addEventListener('input', () => {
+        document.getElementById('charCount').textContent = `${textarea.value.length} Zeichen`;
+    });
+
+    // Modul-Auswahl-Buttons
+    let currentMode = 'summary';
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    modeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modeButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMode = btn.getAttribute('data-mode');
+        });
+    });
+
+    // Zurücksetzen Button
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        textarea.value = '';
+        document.getElementById('charCount').textContent = '0 Zeichen';
+        document.getElementById('resultWrap').classList.remove('show');
+    });
+
+    // --- DIE KORREKTE LIVE-ANALYSE FUNKTION ---
+    async function analyze() {
+        const textInput = textarea.value.trim();
+        if (!textInput) {
+            alert('Bitte gib zuerst einen Text ein!');
+            return;
         }
-    });
 
-    // 3. Demo-Interaktion für Diktierfunktion (Feature 3)
-    const voiceBtn = document.getElementById('voiceBtn');
-    let isRecording = false;
-    voiceBtn.addEventListener('click', () => {
-        isRecording = !isRecording;
-        if(isRecording) {
-            voiceBtn.textContent = '🛑 Aufnahme stoppen...';
-            voiceBtn.style.color = 'var(--red)';
-            voiceBtn.style.borderColor = 'var(--red)';
-        } else {
-            voiceBtn.textContent = '🎤 Diktieren starten';
-            voiceBtn.style.color = 'var(--text2)';
-            voiceBtn.style.borderColor = 'var(--border)';
-            document.getElementById('inputText').value += " [Diktierter Beispieltext für die Präsentation]";
+        const spinner = document.getElementById('loadingSpinner');
+        const resultWrap = document.getElementById('resultWrap');
+        const resultBody = document.getElementById('resultBody');
+
+        resultWrap.classList.remove('show');
+        spinner.style.display = 'block';
+
+        try {
+            // Ruft deine Netlify Function auf (Pfad passt sich automatisch an deine neue Domain an)
+            const response = await fetch('/.netlify/functions/contexto_secure_backend', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: textInput, mode: currentMode })
+            });
+
+            const data = await response.json();
+            spinner.style.display = 'none';
+
+            if (response.ok && data.result) {
+                resultWrap.classList.add('show');
+                resultBody.textContent = data.result;
+            } else {
+                throw new Error(data.error || 'Unbekannter Serverfehler');
+            }
+
+        } catch (error) {
+            spinner.style.display = 'none';
+            alert('Fehler bei der Analyse: ' + error.message);
         }
-    });
+    }
 
-    // 4. Feedback für Export und Vorlesen (Feature 2 & 3)
-    document.getElementById('exportBtn').addEventListener('click', () => {
-        alert('📥 Dokumenten-Export: Die Datei wird als formatiertes PDF/Word generiert und heruntergeladen.');
-    });
-    document.getElementById('speakBtn').addEventListener('click', () => {
-        alert('🔊 Audio-Ausgabe: Text-to-Speech startet und liest das Analyse-Ergebnis barrierefrei vor.');
+    // Kopieren Button
+    document.getElementById('copyBtn').addEventListener('click', () => {
+        navigator.clipboard.writeText(document.getElementById('resultBody').textContent);
+        alert('Ergebnis kopiert!');
     });
 </script>
 </body>
