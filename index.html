@@ -17,15 +17,17 @@
         <li><a href="#tool" data-i18n="nav_tool">Analyse-Tool</a></li>
         <li><a href="#wie" data-i18n="nav_how">Funktionsweise</a></li>
     </ul>
-    <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
-        <select class="lang-select" id="langSelect" style="padding: 6px 10px; border-radius: 20px; font-weight: 500;">
-            <option value="de-DE">Deutsch (DE)</option>
-            <option value="en-US">English (US)</option>
-            <option value="fr-FR">Français (FR)</option>
-            <option value="es-ES">Español (ES)</option>
-        </select>
+    <div class="nav-right" style="display: flex; align-items: center; gap: 14px;">
+        <div class="custom-select-wrapper">
+            <select class="lang-select" id="langSelect">
+                <option value="de-DE">Deutsch (DE)</option>
+                <option value="en-US">English (US)</option>
+                <option value="fr-FR">Français (FR)</option>
+                <option value="es-ES">Español (ES)</option>
+            </select>
+        </div>
         
-        <button id="themeToggle" class="theme-btn" style="background: none; border: 1px solid var(--border); color: var(--text); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px; font-weight: 500; transition: all 0.3s ease;">
+        <button id="themeToggle" class="theme-btn">
             🌙 <span data-i18n="btn_dark">Dark Mode</span>
         </button>
     </div>
@@ -34,7 +36,7 @@
 <section class="hero animate-fade-in">
     <div class="hero-glow"></div>
     <p class="hero-eyebrow"><span class="eyebrow-dot"></span> Powered by Netlify Functions & OpenRouter</p>
-    <h1 data-i18n="hero_title">Texte intelligent <em>verstehen</em> und bearbeiten</h1>
+    <h1 data-i18n="hero_title">Texte intelligent <em class="highlight-word">verstehen</em> und bearbeiten</h1>
     <p class="hero-sub" data-i18n="hero_sub">Contexto filtert Kernpunkte, korrigiert Grammatik, übersetzt Sprachen, schreibt Texte professionell um und analysiert Dokumente.</p>
     <a href="#tool" class="hero-cta" data-i18n="hero_cta">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
@@ -58,12 +60,18 @@
             </div>
 
             <div class="tool-body">
-                <div class="upload-zone" id="uploadZone">
-                    <input type="file" id="fileInput" accept=".txt">
-                    <div class="upload-content">
-                        <span class="upload-icon">📂</span>
-                        <div class="upload-text-main" data-i18n="upload_main">Klicke hier oder ziehe eine .txt-Datei hinein</div>
-                        <div class="upload-text-sub" data-i18n="upload_sub">Unterstützt reine Textdateien bis zu 5 MB</div>
+                <div class="upload-container">
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" id="fileInput" accept=".txt">
+                        <div class="upload-content">
+                            <div class="upload-circle">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </div>
+                            <div class="upload-text-wrap">
+                                <span class="upload-text-main" data-i18n="upload_main">Klicke hier oder ziehe eine .txt-Datei hinein</span>
+                                <span class="upload-text-sub" data-i18n="upload_sub">Unterstützt reine Textdateien bis zu 5 MB</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -72,8 +80,8 @@
                     <span class="char-badge" id="charCount">0 Zeichen</span>
                 </div>
 
-                <div id="translatorOptions" style="display: none; margin-bottom: 1.5rem; background: var(--bg3); padding: 16px; border-radius: var(--r); border: 1px solid var(--border); transition: all 0.3s ease;">
-                    <span class="label-sm" style="margin-bottom: 6px; display: block;" data-i18n="trans_label">Ziel-Sprache für Übersetzung:</span>
+                <div id="translatorOptions" style="display: none; margin-bottom: 1.5rem; background: var(--bg3); padding: 16px; border-radius: var(--r); border: 1px solid var(--border);">
+                    <span class="label-sm" style="margin-bottom: 8px; display: block;" data-i18n="trans_label">Ziel-Sprache für Übersetzung:</span>
                     <select class="lang-select" id="targetLangSelect" style="width: 100%; max-width: 220px; padding: 8px 12px;">
                         <option value="Englisch">English</option>
                         <option value="Deutsch">Deutsch</option>
