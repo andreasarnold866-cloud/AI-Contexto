@@ -348,3 +348,27 @@ textarea.main:focus { border-color: var(--accent); }
 footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; color: var(--text3); font-size: 13px; background: #07070b; }
 .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
 @media (max-width: 768px) { .about-grid, .reflect-grid { grid-template-columns: 1fr; gap: 2rem; } .modes-row { grid-template-columns: 1fr 1fr; } }
+/* Styling für den Dark Mode Farbtauch */
+body.dark-theme {
+    --bg: #121214;
+    --bg2: #1a1a1e;
+    --bg3: #222227;
+    --text: #f3f4f6;
+    --text2: #9ca3af;
+    --text3: #6b7280;
+    --border: #2e2e35;
+}
+
+/* FEATURE 4: CSS Animation für das Lade-Rädchen (Spinner) */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--brand, #ff4a5a); /* Deine Primärfarbe oder Fallback */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
