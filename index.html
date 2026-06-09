@@ -27,7 +27,6 @@
             --shadow: rgba(0, 0, 0, 0.3);
         }
 
-        /* --- LIGHT MODE --- */
         body.light-theme {
             --bg: #f9fafb;          
             --bg2: #ffffff;         
@@ -55,7 +54,6 @@
         .theme-btn { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; outline: none; font-weight: 500; }
         .theme-btn:hover { border-color: var(--brand); }
         
-        /* Oben System-Sprachauswahl */
         .system-lang-select { background: var(--bg3); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none; }
         .system-lang-select:focus { border-color: var(--brand); }
 
@@ -91,7 +89,7 @@
         .inline-btn:hover { color: var(--text); border-color: var(--text2); }
         .inline-btn.recording { background: rgba(239, 68, 68, 0.2); color: var(--red); border-color: var(--red); }
 
-        /* Sprachen-Box (Standardmäßig ausgeblendet, wird nur bei "Übersetzer" aktiv!) */
+        /* Sprachen-Box */
         .trans-container { display: none; margin-bottom: 20px; background: var(--bg3); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
         .trans-container.active { display: block; }
         .trans-select { background: var(--bg2); color: var(--text); border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; font-size: 14px; outline: none; margin-top: 6px; width: 100%; max-width: 250px; cursor: pointer; }
@@ -120,6 +118,13 @@
         .copy-btn, .download-btn, .speak-btn { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
         .copy-btn:hover, .download-btn:hover, .speak-btn:hover { color: var(--text); border-color: var(--text2); }
         .result-text { font-size: 15px; color: var(--text); line-height: 1.6; white-space: pre-line; }
+
+        /* --- VERLAUF / HISTORY SECTION --- */
+        .history-box { margin-top: 24px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+        .history-list { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .history-item { background: var(--bg2); padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+        .history-item span.text-preview { max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+        .history-item span.tag { font-weight: bold; color: var(--brand); text-transform: uppercase; font-size: 11px; background: var(--brand-light); padding: 2px 6px; border-radius: 4px; }
 
         /* Erklärungsbereich unten */
         .explanation-section { padding: 40px 20px; background: var(--bg2); border-top: 1px solid var(--border); margin-top: 60px; }
@@ -186,7 +191,6 @@
                         <option value="Spanisch">Spanisch (Español)</option>
                         <option value="Italienisch">Italienisch (Italiano)</option>
                         <option value="Niederländisch">Niederländisch (Nederlands)</option>
-                        <option value="Portugiesisch">Portugiesisch (Português)</option>
                     </select>
                 </div>
 
@@ -216,6 +220,12 @@
                         </div>
                     </div>
                     <div id="resultBody" class="result-text"></div>
+                </div>
+
+                <div class="history-box">
+                    <div class="label-sm" id="lblHistory">🕒 Analyse-Verlauf:</div>
+                    <ul class="history-list" id="historyList">
+                        </ul>
                 </div>
             </div>
         </div>
@@ -252,8 +262,10 @@
             statusReady: "Bereit für die Textanalyse...",
             statusRunning: "🤖 KI verarbeitet Datenstrom...",
             statusDone: "✅ Analyse abgeschlossen!",
+            statusError: "❌ Server-Fehler beim Laden!",
             lblTarget: "🌐 Übersetzer-Optionen:",
             lblModules: "Analyse-Modul wählen:",
+            lblHistory: "🕒 Analyse-Verlauf:",
             mSummary: "📄 Zusammenfassung",
             mExplain: "💡 Einfach Erklären",
             mRephrase: "💼 Profi-Stil",
@@ -280,313 +292,6 @@
             statusReady: "Ready for text analysis...",
             statusRunning: "🤖 AI processing data stream...",
             statusDone: "✅ Analysis complete!",
+            statusError: "❌ Server error occurred!",
             lblTarget: "🌐 Translator Options:",
-            lblModules: "Select analysis module:",
-            mSummary: "📄 Summary",
-            mExplain: "💡 Explain Simply",
-            mRephrase: "💼 Professional Style",
-            mGrammar: "✏️ Grammar Check",
-            mTranslate: "🌐 Translator",
-            runBtn: "Execute Analysis",
-            clearBtn: "Reset",
-            uploadBtn: "📁 Insert File",
-            recordBtn: "🎤 Dictate",
-            charCount: "characters",
-            expTitle: "How does Contexto work?",
-            expSub: "An insight into the architecture and data processing of this platform:",
-            c1Title: "1. Text Injection",
-            c1Text: "The user interface receives your input (text, file or voice) and prepares the data structured as a JSON object.",
-            c2Title: "2. Secure Serverless Pipeline",
-            c2Text: "The request is encrypted and passed to a Netlify Function. This protects the private API key from unauthorized third-party access.",
-            c3Title: "3. AI Inference",
-            c3Text: "Via the OpenRouter network, an advanced language model processes the selected module and returns the result in milliseconds.",
-            alertEmpty: "Please enter a text first!",
-            placeholder: "Paste your text here..."
-        },
-        FR: {
-            title: "Comprendre les textes <em class='highlight-word'>intelligemment</em>",
-            statusReady: "Prêt pour l'analyse de texte...",
-            statusRunning: "🤖 L'IA traite le flux de données...",
-            statusDone: "✅ Analyse terminée!",
-            lblTarget: "🌐 Options du traducteur:",
-            lblModules: "Sélectionner le module d'analyse:",
-            mSummary: "📄 Résumé",
-            mExplain: "💡 Expliquer simplement",
-            mRephrase: "💼 Style professionnel",
-            mGrammar: "✏️ Vérification de la grammaire",
-            mTranslate: "🌐 Traducteur",
-            runBtn: "Exécuter l'analyse",
-            clearBtn: "Réinitialiser",
-            uploadBtn: "📁 Insérer un fichier",
-            recordBtn: "🎤 Dicter",
-            charCount: "caractères",
-            expTitle: "Comment fonctionne Contexto?",
-            expSub: "Un aperçu de l'architecture et du traitement des données de cette plateforme:",
-            c1Title: "1. Injection de texte",
-            c1Text: "L'interface utilisateur reçoit votre saisie (texte, fichier ou voix) et prépare les données structurées sous forme d'objet JSON.",
-            c2Title: "2. Pipeline Serverless Sécurisé",
-            c2Text: "La demande est cryptée et transmise à une fonction Netlify. Cela protège la clé API privée contre l'accès non autorisé de tiers.",
-            c3Title: "3. Inférence de l'IA",
-            c3Text: "Via le réseau OpenRouter, un modèle linguistique avancé traite le module sélectionné et renvoie le résultat en quelques millisecondes.",
-            alertEmpty: "Veuillez d'abord saisir un texte!",
-            placeholder: "Collez votre texte ici..."
-        },
-        ES: {
-            title: "Entender textos de forma <em class='highlight-word'>inteligente</em>",
-            statusReady: "Listo para el análisis de texto...",
-            statusRunning: "🤖 IA procesando flujo de datos...",
-            statusDone: "✅ ¡Análisis completado!",
-            lblTarget: "🌐 Opciones del traductor:",
-            lblModules: "Seleccionar módulo de análisis:",
-            mSummary: "📄 Resumen",
-            mExplain: "💡 Explicar simplemente",
-            mRephrase: "💼 Estilo profesional",
-            mGrammar: "✏️ Control de gramática",
-            mTranslate: "🌐 Traductor",
-            runBtn: "Ejecutar análisis",
-            clearBtn: "Restablecer",
-            uploadBtn: "📁 Insertar archivo",
-            recordBtn: "🎤 Dictar",
-            charCount: "caracteres",
-            expTitle: "¿Cómo funciona Contexto?",
-            expSub: "Una visión de la arquitectura y el procesamiento de datos de esta plataforma:",
-            c1Title: "1. Inyección de texto",
-            c1Text: "La interfaz de usuario recibe su entrada (texto, archivo o voz) y prepara los datos estructurados como un objeto JSON.",
-            c2Title: "2. Canalización Serverless Segura",
-            c2Text: "La solicitud se encripta y se envía a una función de Netlify. Esto protege la clave API privada del acceso no autorizado de terceros.",
-            c3Title: "3. Inferencia de IA",
-            c3Text: "A través de la red OpenRouter, un modelo de lenguaje avanzado procesa el módulo seleccionado y devuelve el resultado en milisegundos.",
-            alertEmpty: "¡Por favor, introduzca un texto primero!",
-            placeholder: "Pegue su texto aquí..."
-        }
-    };
-
-    // --- SYSTEMS-SPRACHE WECHSELN ---
-    const systemLangSelect = document.getElementById('systemLangSelect');
-    let currentLang = 'DE';
-
-    function updateSystemLanguage(lang) {
-        currentLang = lang;
-        const dict = translations[lang];
-
-        document.getElementById('mainTitle').innerHTML = dict.title;
-        document.getElementById('kiStatus').textContent = dict.statusReady;
-        document.getElementById('lblTarget').textContent = dict.lblTarget;
-        document.getElementById('lblModules').textContent = dict.lblModules;
-        document.getElementById('mSummary').textContent = dict.mSummary;
-        document.getElementById('mExplain').textContent = dict.mExplain;
-        document.getElementById('mRephrase').textContent = dict.mRephrase;
-        document.getElementById('mGrammar').textContent = dict.mGrammar;
-        document.getElementById('mTranslate').textContent = dict.mTranslate;
-        document.getElementById('runBtn').textContent = dict.runBtn;
-        document.getElementById('clearBtn').textContent = dict.clearBtn;
-        document.getElementById('uploadBtn').textContent = dict.uploadBtn;
-        document.getElementById('recordBtn').textContent = dict.recordBtn;
-        document.getElementById('inputText').placeholder = dict.placeholder;
-        
-        document.getElementById('expTitle').textContent = dict.expTitle;
-        document.getElementById('expSub').textContent = dict.expSub;
-        document.getElementById('c1Title').textContent = dict.c1Title;
-        document.getElementById('c1Text').textContent = dict.c1Text;
-        document.getElementById('c2Title').textContent = dict.c2Title;
-        document.getElementById('c2Text').textContent = dict.c2Text;
-        document.getElementById('c3Title').textContent = dict.c3Title;
-        document.getElementById('c3Text').textContent = dict.c3Text;
-
-        updateCharCount();
-    }
-
-    systemLangSelect.addEventListener('change', (e) => {
-        updateSystemLanguage(e.target.value);
-    });
-
-    // --- DARK / LIGHT MODE ---
-    const toggleBtn = document.getElementById('themeToggle');
-    toggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        toggleBtn.querySelector('span').textContent = isLight ? 'Dark Mode' : 'Light Mode';
-        toggleBtn.firstChild.textContent = isLight ? '🌙 ' : '☀️ ';
-    });
-
-    // Zeichenzähler
-    const textarea = document.getElementById('inputText');
-    function updateCharCount() {
-        const word = translations[currentLang].charCount;
-        document.getElementById('charCount').textContent = `${textarea.value.length} ${word}`;
-    }
-    textarea.addEventListener('input', updateCharCount);
-
-    // --- INTELLIGENTE ANZEIGE FÜR DIE SPRACHBOX ---
-    let currentMode = 'summary';
-    const modeButtons = document.querySelectorAll('.mode-btn');
-    const transContainer = document.getElementById('transContainer');
-
-    modeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            modeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentMode = btn.getAttribute('data-mode');
-
-            // Zeige die Sprachbox NUR beim Übersetzer an
-            if (currentMode === 'translate') {
-                transContainer.classList.add('active');
-            } else {
-                transContainer.classList.remove('active');
-            }
-        });
-    });
-
-    // Zurücksetzen Button
-    document.getElementById('clearBtn').addEventListener('click', () => {
-        textarea.value = '';
-        updateCharCount();
-        document.getElementById('resultWrap').classList.remove('show');
-        document.getElementById('kiStatus').textContent = translations[currentLang].statusReady;
-        if (window.speechSynthesis) window.speechSynthesis.cancel();
-    });
-
-    // Datei einfügen (Simulation)
-    const uploadBtn = document.getElementById('uploadBtn');
-    const fileInput = document.getElementById('fileInput');
-    uploadBtn.addEventListener('click', () => fileInput.click());
-    
-    fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            textarea.value = `Hallo, ich bin Franz. Das ist der importierte Text aus der Datei '${file.name}' für das Schulprojekt.`;
-            updateCharCount();
-        }
-    });
-
-    // Spracheingabe (Diktieren)
-    const recordBtn = document.getElementById('recordBtn');
-    let isRecording = false;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
-    if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'de-DE';
-
-        recordBtn.addEventListener('click', () => {
-            if (!isRecording) recognition.start();
-            else recognition.stop();
-        });
-
-        recognition.onstart = () => {
-            isRecording = true;
-            recordBtn.textContent = '🛑...';
-            recordBtn.classList.add('recording');
-        };
-
-        recognition.onresult = (event) => {
-            textarea.value += (textarea.value ? ' ' : '') + event.results[0][0].transcript;
-            updateCharCount();
-        };
-
-        recognition.onend = () => {
-            isRecording = false;
-            recordBtn.textContent = translations[currentLang].recordBtn;
-            recordBtn.classList.remove('recording');
-        };
-    } else {
-        recordBtn.addEventListener('click', () => {
-            textarea.value += " Hallo, ich bin Franz.";
-            updateCharCount();
-        });
-    }
-
-    // --- ANALYSE FUNKTION MIT SICHERHEITS-FALLBACK ---
-    async function analyze() {
-        const textInput = textarea.value.trim();
-        if (!textInput) {
-            alert(translations[currentLang].alertEmpty);
-            return;
-        }
-
-        const spinner = document.getElementById('loadingSpinner');
-        const resultWrap = document.getElementById('resultWrap');
-        const resultBody = document.getElementById('resultBody');
-        const statusText = document.getElementById('kiStatus');
-
-        resultWrap.classList.remove('show');
-        spinner.style.display = 'block';
-        statusText.textContent = translations[currentLang].statusRunning;
-
-        try {
-            const response = await fetch('/.netlify/functions/contexto_secure_backend', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: textInput, mode: currentMode })
-            });
-            const textData = await response.text(); 
-            if (!response.ok || !textData) throw new Error("Offline.");
-
-            const data = JSON.parse(textData);
-            spinner.style.display = 'none';
-            resultWrap.classList.add('show');
-            resultBody.textContent = data.result;
-            statusText.textContent = translations[currentLang].statusDone;
-
-        } catch (error) {
-            // Ausweichpipeline für die Präsentation
-            setTimeout(() => {
-                spinner.style.display = 'none';
-                resultWrap.classList.add('show');
-                statusText.textContent = translations[currentLang].statusDone;
-
-                if (currentMode === 'summary') {
-                    document.getElementById('resultTitle').textContent = currentLang === 'DE' ? '📄 KI-Zusammenfassung' : '📄 AI Summary';
-                    resultBody.textContent = `• Hauptaussage: Der Text beschreibt das Subjekt '${textInput}'.\n• Relevanz: Hoher Praxisbezug für die Leistungsbewertung.\n• Fazit: Die Zielsetzung wurde erfolgreich erreicht.`;
-                } else if (currentMode === 'explain') {
-                    document.getElementById('resultTitle').textContent = '💡 Explanation';
-                    resultBody.textContent = `Das bedeutet einfach: Du stellst dich kurz vor und sagst freundlich deinen Namen.`;
-                } else if (currentMode === 'rephrase_pro') {
-                    document.getElementById('resultTitle').textContent = '💼 Business Pro';
-                    resultBody.textContent = `„Es entspricht den Tatsachen, dass meine Identität im hiesigen Kontext auf den Namen Franz lautet.“`;
-                } else if (currentMode === 'grammar') {
-                    document.getElementById('resultTitle').textContent = '✏️ Grammar Check';
-                    resultBody.textContent = `✅ Syntaktische Struktur erfolgreich validiert. Keine formalen Fehler gefunden.`;
-                } else if (currentMode === 'translate') {
-                    const selectedLanguage = document.getElementById('targetLang').value;
-                    document.getElementById('resultTitle').textContent = `🌐 Translation (${selectedLanguage})`;
-                    if (selectedLanguage === "Englisch") resultBody.textContent = `Hello, I am Franz.`;
-                    else if (selectedLanguage === "Französisch") resultBody.textContent = `Bonjour, je m'appelle Franz.`;
-                    else if (selectedLanguage === "Spanisch") resultBody.textContent = `Hola, soy Franz.`;
-                    else if (selectedLanguage === "Italienisch") resultBody.textContent = `Ciao, sono Franz.`;
-                    else if (selectedLanguage === "Niederländisch") resultBody.textContent = `Hallo, ik ben Franz.`;
-                    else resultBody.textContent = `Olá, eu sou o Franz.`;
-                }
-            }, 1000);
-        }
-    }
-
-    // Vorlesen
-    document.getElementById('speakBtn').addEventListener('click', () => {
-        if (window.speechSynthesis) {
-            window.speechSynthesis.cancel();
-            const text = document.getElementById('resultBody').textContent;
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = currentMode === 'translate' && document.getElementById('targetLang').value === 'Englisch' ? 'en-US' : 'de-DE';
-            window.speechSynthesis.speak(utterance);
-        }
-    });
-
-    // Herunterladen
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-        const text = document.getElementById('resultBody').textContent;
-        const blob = new Blob([text], { type: 'text/plain' });
-        const anchor = document.createElement('a');
-        anchor.download = `contexto_download.txt`;
-        anchor.href = window.URL.createObjectURL(blob);
-        anchor.click();
-    });
-
-    // Kopieren
-    document.getElementById('copyBtn').addEventListener('click', () => {
-        navigator.clipboard.writeText(document.getElementById('resultBody').textContent);
-        alert('Copied!');
-    });
-</script>
-</body>
-</html>
+            lbl
